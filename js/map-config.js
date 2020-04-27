@@ -73,7 +73,7 @@ require([
         outputPixelType: 'U8'
     });
 
-    // symbole for forestLayer 
+    // symbol for forestLayer 
     const forestSym = {
         type: 'simple-fill', //autocasts as new SimpleFillSymbol()
         color: [120, 162, 46, 1],
