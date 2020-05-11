@@ -22,8 +22,10 @@ body {
     order: 1;
 }
 
+
+/******** bottom Slider with years and play button ********/
+
 #bottomDiv {
-    /* Slider with years and play button */
     order: 2;
     display: flex;
     flex-direction: column;
@@ -85,8 +87,14 @@ body {
     display: block;
 }
 
+.esri-slider--horizontal {
+    z-index: 0;
+}
+
+
+/******** Floating div with About Modal, peatCheckbox, rangeSlider and legend ********/
+
 #leftDiv {
-    /* Floating div with About Modal, peatCheckbox, rangeSlider and legend */
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -98,6 +106,65 @@ body {
     left: 20;
     padding: 10 20 25 20;
     background-color: white;
+}
+
+#modal-btn {
+    height: 40px;
+    width: 240px;
+    margin-top: 10px;
+    background-color: #0079c1;
+    border: 1px solid #124d77;
+    color: white;
+    font-weight: bold;
+    padding: 5 0 5 0;
+}
+
+#modal-btn:hover {
+    background-color: #0061a7;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+}
+
+.modal-content {
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: auto;
+    width: 75%;
+}
+
+#modal-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn {
+    float: right;
+    color: gray;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.close-btn:hover {
+    color: black;
+}
+
+#huttonLogo {
+    padding-top: 20px;
 }
 
 #peatLabel {
@@ -170,71 +237,8 @@ input:checked+.peatToggle:before {
     z-index: -1;
 }
 
-.esri-slider--horizontal {
-    z-index: 0;
-}
-
 #rangeSlider.esri-slider__content {
     margin: 0 !important;
-}
-
-#modal-btn {
-    height: 40px;
-    width: 240px;
-    margin-top: 10px;
-    background-color: #0079c1;
-    border: 1px solid #124d77;
-    color: white;
-    font-weight: bold;
-    padding: 5 0 5 0;
-}
-
-#modal-btn:hover {
-    background-color: #0061a7;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 10;
-}
-
-.modal-content {
-    position: relative;
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin: auto;
-    width: 75%;
-}
-
-#modal-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.close-btn {
-    float: right;
-    color: gray;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.close-btn:hover {
-    color: black;
-}
-
-#huttonLogo {
-    padding-top: 20px;
 }
 
 #forestLegendImg {
@@ -245,8 +249,10 @@ input:checked+.peatToggle:before {
     padding-left: 4px;
 }
 
+
+/******** Floating div with ribbon style graphs for each FMA ********/
+
 #rightDiv {
-    /* Floating div with ribbon style graphs for each FMA */
     position: fixed;
     display: flex;
     top: 20;
