@@ -3,6 +3,7 @@
 require([
     'esri/Map',
     'esri/views/MapView',
+    'esri/widgets/Expand',
     'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
@@ -13,6 +14,7 @@ require([
     'esri/layers/support/DimensionalDefinition'
 ], function(Map,
     MapView,
+    Expand,
     BasemapToggle,
     ScaleBar,
     Slider,
@@ -182,6 +184,8 @@ require([
         // format: 'lerc'
     });
     map.add(layer);
+
+
 
     // create and add basemaptoggle
     const basemapToggle = new BasemapToggle({
@@ -442,7 +446,7 @@ require([
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
     const closeBtn = document.querySelector('.close-btn');
-    modal.style.display = 'flex';
+    modal.style.display = 'flex'; // change this to flex to default open
     modalBtn.onclick = function() {
         modal.style.display = 'flex';
     };
@@ -454,4 +458,15 @@ require([
             modal.style.display = 'none';
         }
     };
+
+    // Expand
+    // const leftDiv = document.getElementById('leftDiv');
+    // const expandLeftDiv = new Expand({
+    //     view: view,
+    //     expanded: true,
+    //     content: leftDiv
+    // });
+    // view.ui.add(expandLeftDiv, 'top-left');
+
+
 });
