@@ -185,8 +185,6 @@ require([
     });
     map.add(layer);
 
-
-
     // create and add basemaptoggle
     const basemapToggle = new BasemapToggle({
         view: view,
@@ -289,57 +287,57 @@ require([
     });
 
     // set vars for the fma charts in rightDiv
-    let fmaChart = document.getElementById('rightDivImg');
-    const fma1Chart = 'img/fma1Chart.png';
-    const fma2Chart = 'img/fma2Chart.png';
-    const fma3Chart = 'img/fma3Chart.png';
-    const fma4Chart = 'img/fma4Chart.png';
-    fmaChart.src = fma1Chart;
+    /* let fmaChart = document.getElementById('rightDivImg');
+     const fma1Chart = 'img/fma1Chart.png';
+     const fma2Chart = 'img/fma2Chart.png';
+     const fma3Chart = 'img/fma3Chart.png';
+     const fma4Chart = 'img/fma4Chart.png';
+     fmaChart.src = fma1Chart;
 
-    function updateChartImg() {
-        switch (true) {
-            case slider.get('values') == 1:
-                fmaChart.src = fma1Chart;
-                break;
-            case slider.get('values') == 2:
-                fmaChart.src = fma2Chart;
-                break;
-            case slider.get('values') == 3:
-                fmaChart.src = fma3Chart;
-                break;
-            case slider.get('values') == 4:
-                fmaChart.src = fma4Chart;
-                break;
-            case slider.get('values') == 5:
-                fmaChart.src = fma3Chart;
-                break;
-            case slider.get('values') == 6:
-                fmaChart.src = fma2Chart;
-                break;
-            case slider.get('values') == 7:
-                fmaChart.src = fma1Chart;
-                break;
-            case slider.get('values') == 8:
-                fmaChart.src = fma2Chart;
-                break;
-            case slider.get('values') == 9:
-                fmaChart.src = fma3Chart;
-                break;
-            case slider.get('values') == 10:
-                fmaChart.src = fma4Chart;
-                break;
-            case slider.get('values') == 11:
-                fmaChart.src = fma3Chart;
-                break;
-            default:
-                fmaChart.src = fma4Chart;
-        }
-    };
+     function updateChartImg() {
+         switch (true) {
+             case slider.get('values') == 1:
+                 fmaChart.src = fma1Chart;
+                 break;
+             case slider.get('values') == 2:
+                 fmaChart.src = fma2Chart;
+                 break;
+             case slider.get('values') == 3:
+                 fmaChart.src = fma3Chart;
+                 break;
+             case slider.get('values') == 4:
+                 fmaChart.src = fma4Chart;
+                 break;
+             case slider.get('values') == 5:
+                 fmaChart.src = fma3Chart;
+                 break;
+             case slider.get('values') == 6:
+                 fmaChart.src = fma2Chart;
+                 break;
+             case slider.get('values') == 7:
+                 fmaChart.src = fma1Chart;
+                 break;
+             case slider.get('values') == 8:
+                 fmaChart.src = fma2Chart;
+                 break;
+             case slider.get('values') == 9:
+                 fmaChart.src = fma3Chart;
+                 break;
+             case slider.get('values') == 10:
+                 fmaChart.src = fma4Chart;
+                 break;
+             case slider.get('values') == 11:
+                 fmaChart.src = fma3Chart;
+                 break;
+             default:
+                 fmaChart.src = fma4Chart;
+         }
+     };*/
 
     // when the user changes the rangeSlider's value, change the FMA to reflect data and change chart in rightDiv
     slider.on(['thumb-change', 'thumb-drag'], function(event) {
         updateDimDef(event.value);
-        updateChartImg();
+        // updateChartImg();
     });
 
     function updateDimDef(value) {
@@ -439,9 +437,6 @@ require([
         playButton.classList.remove('toggled');
     };
 
-    // when you figure out everything with the slider, do this!
-    // https://developers.arcgis.com/javascript/latest/sample-code/layers-imagery-clientside/index.html
-
     // modal 'About' box in leftDiv
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
@@ -460,13 +455,16 @@ require([
     };
 
     // Expand
-    // const leftDiv = document.getElementById('leftDiv');
-    // const expandLeftDiv = new Expand({
-    //     view: view,
-    //     expanded: true,
-    //     content: leftDiv
-    // });
-    // view.ui.add(expandLeftDiv, 'top-left');
+    const leftDiv = dom.byId('leftDiv');
+    const expandLeftDiv = new Expand({
+        view: view,
+        expanded: false,
+        content: leftDiv
+    });
+    view.ui.add(expandLeftDiv, 'top-left');
 
+
+    // when you figure out everything with the slider, do this!
+    // https://developers.arcgis.com/javascript/latest/sample-code/layers-imagery-clientside/index.html
 
 });
