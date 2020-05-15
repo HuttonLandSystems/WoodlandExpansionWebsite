@@ -185,22 +185,7 @@ require([
     });
     map.add(layer);
 
-    // create and add basemaptoggle
-    const basemapToggle = new BasemapToggle({
-        view: view,
-        nextBasemap: 'satellite'
-    });
-    view.ui.add(basemapToggle, 'bottom-right');
 
-    // moves the zoom widget to other corner
-    view.ui.move('zoom', 'bottom-right');
-
-    // create  and add scale bar to view
-    const scaleBar = new ScaleBar({
-        view: view,
-        unit: 'dual' // The scale bar displays both metric and non-metric units.
-    });
-    view.ui.add(scaleBar, 'bottom-right');
 
     // add tooltip/alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -454,6 +439,23 @@ require([
         }
     };
 
+    // create and add basemaptoggle
+    const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: 'satellite'
+    });
+    view.ui.add(basemapToggle, 'bottom-right');
+
+    // moves the zoom widget to other corner
+    view.ui.move('zoom', 'bottom-right');
+
+    // create  and add scale bar to view
+    const scaleBar = new ScaleBar({
+        view: view,
+        unit: 'dual' // The scale bar displays both metric and non-metric units.
+    });
+    view.ui.add(scaleBar, 'bottom-right');
+
     // Expand
     const leftDiv = dom.byId('leftDiv');
     const expandLeftDiv = new Expand({
@@ -461,7 +463,7 @@ require([
         expanded: false,
         content: leftDiv
     });
-    view.ui.add(expandLeftDiv, 'top-left');
+    view.ui.add(expandLeftDiv, 'top-right');
 
 
     // when you figure out everything with the slider, do this!

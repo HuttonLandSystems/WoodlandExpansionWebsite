@@ -96,6 +96,7 @@ body {
 #leftDiv {
     position: fixed;
     display: flex;
+    flex: 0 0 auto;
     flex-direction: column;
     justify-content: center;
     height: 75%;
@@ -140,6 +141,8 @@ body {
     padding: 20px;
     margin: auto;
     width: 75%;
+    height: 60%;
+    overflow-y: auto;
 }
 
 #modal-text {
