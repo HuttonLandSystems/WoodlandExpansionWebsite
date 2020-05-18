@@ -82,24 +82,30 @@
 <body>
     <div id='applicationDiv'>
         <div id='mapDiv'> </div>
-        <div id='leftDiv'>
-            <button id='modal-btn' class='esri-widget'> About the Map</button>
+        <div id='wholeLeftDiv'>
+            <div id='leftDiv'>
+                <button id='modal-btn' class='esri-widget'> About the Map</button>
+                <div id='peatCheckbox'>
+                    <p style='margin: 10 0;' id='title' class='esri-widget'>Turn Peat areas on/off</p>
+                    <label id='peatLabel'><input id='peatInput' type='checkbox' checked='yes' /> <span class='peatToggle'></span> </label>
+                </div>
+                <div id='title' class='esri-widget'>
+                    <p style='margin: 10 0;'>Drag to select <br>Forestry Management Alternative</p>
+                </div>
+                <div id='rangeSlider' class='esri-widget'></div>
+            </div>
+            <div id='leftDiv2'>
+                <div id='title' class='esri-widget'>
+                    <!-- <h3 style='margin:0 0 10 0 ;'>Legend</h3> -->
+                    <p style='margin:0;'>Tonnes of carbon stored <br>per hectare per year</p>
+                    <img id='legendImg' src='img/legend2.jpg'>
+                    <p style='margin:5 0'>Existing Forestry <a href='https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer' target='_blank'>(source)</a> </p>
+                    <span id='forestLegendImg'></span>
+                </div>
+            </div>
 
-            <div id='peatCheckbox'>
-                <p id='title' class='esri-widget'>Turn Peat areas on/off</p>
-                <label id='peatLabel'><input id='peatInput' type='checkbox' checked='yes' /> <span class='peatToggle'></span> </label>
-            </div>
-            <div id='title' class='esri-widget'>
-                <p>Drag to select <br>Forestry Management Alternative</p>
-            </div>
-            <div id='rangeSlider' class='esri-widget'></div>
-            <div id='title' class='esri-widget'>
-                <p>Tonnes of carbon stored <br>per hectare per year</p>
-                <img id='legendImg' src='img/legend2.jpg'>
-                <p>Existing Forestry <a href='https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer' target='_blank'>(source)</a> </p>
-                <span id='forestLegendImg'></span>
-            </div>
         </div>
+
         <div id='bottomDiv'>
             <p id='title' class='esri-widget slider-title'>Press Play to animate the time slider or Drag to select year</p>
             <div id='sliderDiv' class='esri-widget'>

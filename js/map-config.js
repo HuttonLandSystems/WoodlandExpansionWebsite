@@ -191,7 +191,7 @@ require([
     let executed = false;
     view.on('mouse-wheel', function(event) {
         if (!executed && view.zoom == 10) {
-            alert('Nationwide Date: Scale is constrained to 1:500,000');
+            alert('Nationwide Data: Scale is constrained to 1:500,000');
             executed = true;
         }
     });
@@ -269,7 +269,7 @@ require([
             values: 20,
             labelsVisible: true,
         }]
-    });
+    }); // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels = false
 
     // set vars for the fma charts in rightDiv
     /* let fmaChart = document.getElementById('rightDivImg');
@@ -426,7 +426,7 @@ require([
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
     const closeBtn = document.querySelector('.close-btn');
-    modal.style.display = 'flex'; // change this to flex to default open
+    modal.style.display = 'none'; // change this to flex to default open
     modalBtn.onclick = function() {
         modal.style.display = 'flex';
     };
@@ -454,16 +454,48 @@ require([
         view: view,
         unit: 'dual' // The scale bar displays both metric and non-metric units.
     });
-    view.ui.add(scaleBar, 'bottom-right');
+    view.ui.add(scaleBar, 'bottom-left');
 
     // Expand
-    const leftDiv = dom.byId('leftDiv');
-    const expandLeftDiv = new Expand({
+
+    /*   const leftDiv3Expand = new Expand({
+          view: view,
+          content: document.getElementById('leftDiv3'),
+          expandIconClass: 'esri-icon-description',
+          group: 'top-left'
+      }); */
+
+    const leftDivExpand = new Expand({
         view: view,
-        expanded: false,
-        content: leftDiv
+        content: document.getElementById('leftDiv'),
+        expanded: true,
+        expandIconClass: 'esri-icon-description',
+        group: 'top-left'
     });
-    view.ui.add(expandLeftDiv, 'top-right');
+
+    const leftDiv2Expand = new Expand({
+        view: view,
+        content: document.getElementById('leftDiv2'),
+        expanded: false,
+        expandIconClass: 'esri-icon-layers',
+        group: 'top-left'
+    });
+    view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
+
+    /*     view.watch("widthBreakpoint", function(breakpoint) {
+            switch (breakpoint) {
+                case "xsmall":
+                    updateView(true);
+                    break;
+                case "small":
+                case "medium":
+                case "large":
+                case "xlarge":
+                    updateView(false);
+                    break;
+                default:
+            }
+        }); */
 
 
     // when you figure out everything with the slider, do this!
