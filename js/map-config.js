@@ -457,17 +457,10 @@ require([
     view.ui.add(scaleBar, 'bottom-left');
 
     // Expand
-
-    /*   const leftDiv3Expand = new Expand({
-          view: view,
-          content: document.getElementById('leftDiv3'),
-          expandIconClass: 'esri-icon-description',
-          group: 'top-left'
-      }); */
-
+    const leftDiv = document.getElementById('leftDiv');
     const leftDivExpand = new Expand({
         view: view,
-        content: document.getElementById('leftDiv'),
+        content: leftDiv,
         expanded: true,
         expandIconClass: 'esri-icon-description',
         group: 'top-left'
@@ -482,21 +475,37 @@ require([
     });
     view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
 
-    /*     view.watch("widthBreakpoint", function(breakpoint) {
-            switch (breakpoint) {
-                case "xsmall":
-                    updateView(true);
-                    break;
-                case "small":
-                case "medium":
-                case "large":
-                case "xlarge":
-                    updateView(false);
-                    break;
-                default:
-            }
-        }); */
+    // Load responsive
+    /*  let isResponsiveSize = view.widthBreakpoint === 'xsmall';
 
+     // breakpoints
+     view.watch("widthBreakpoint", function(breakpoint) {
+         switch (breakpoint) {
+             case "xsmall":
+                 updateView(true);
+                 break;
+             case "small":
+             case "medium":
+             case "large":
+             case "xlarge":
+                 updateView(false);
+                 break;
+             default:
+         }
+     });
+
+     function updateView(isMobile) {
+         setLegendMobile(isMobile);
+     };
+
+     function setLegendMobile(isMobile) {
+         var toAdd = isMobile ? leftDivExpand : leftDiv;
+         var toRemove = isMobile ? leftDiv : leftDivExpand;
+
+         view.ui.remove(toRemove);
+         view.ui.add(toAdd, "top-left");
+     };
+     updateView(isResponsiveSize); */
 
     // when you figure out everything with the slider, do this!
     // https://developers.arcgis.com/javascript/latest/sample-code/layers-imagery-clientside/index.html
