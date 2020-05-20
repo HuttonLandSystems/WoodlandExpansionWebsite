@@ -251,7 +251,10 @@ require([
         }
     });
 
-    // creat yearSlider
+    // Load responsive
+    const isResponsiveSize = view.widthBreakpoint === 'xsmall';
+
+    // creat yearSlider  
     const yearSlider = new Slider({
         container: 'yearSlider',
         min: 5,
@@ -260,16 +263,16 @@ require([
         precision: 5,
         snapOnClickEnabled: true,
         visibleElements: {
-            labels: false,
-            rangeLabels: false
+            labels: isResponsiveSize,
+            rangeLabels: isResponsiveSize
         },
         steps: 5,
         tickConfigs: [{
             mode: 'count',
             values: 20,
-            labelsVisible: true,
+            labelsVisible: !isResponsiveSize,
         }]
-    }); // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels = false
+    }); // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels and rangeLabels = true
 
     // set vars for the fma charts in rightDiv
     /* let fmaChart = document.getElementById('rightDivImg');
@@ -475,37 +478,44 @@ require([
     });
     view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
 
-    // Load responsive
-    /*  let isResponsiveSize = view.widthBreakpoint === 'xsmall';
 
-     // breakpoints
-     view.watch("widthBreakpoint", function(breakpoint) {
-         switch (breakpoint) {
-             case "xsmall":
-                 updateView(true);
-                 break;
-             case "small":
-             case "medium":
-             case "large":
-             case "xlarge":
-                 updateView(false);
-                 break;
-             default:
-         }
-     });
 
-     function updateView(isMobile) {
-         setLegendMobile(isMobile);
-     };
+    // breakpoints
+    view.watch("widthBreakpoint", function(breakpoint) {
+        switch (breakpoint) {
+            case "xsmall":
+                updateView(true);
+                break;
+            case "small":
+                updateView(true);
+                break;
+            case "medium":
+                updateView(false);
+                break;
+            case "large":
+                updateView(false);
+                break;
+            case "xlarge":
+                updateView(false);
+                break;
+            default:
+        }
+    });
 
-     function setLegendMobile(isMobile) {
-         var toAdd = isMobile ? leftDivExpand : leftDiv;
-         var toRemove = isMobile ? leftDiv : leftDivExpand;
+    function updateView(isMobile) {
+        setMobileLeftDiv(isMobile);
+    };
 
-         view.ui.remove(toRemove);
-         view.ui.add(toAdd, "top-left");
-     };
-     updateView(isResponsiveSize); */
+    function setMobileLeftDiv(isMobile) {
+        const toAdd = isMobile ? leftDivExpand.expanded = true : leftDivExpand.expanded = false; // conditional (ternary) operator
+        const toRemove = isMobile ? leftDivExpand.expanded = false : leftDivExpand.expanded = true;
+        view.ui.remove(toRemove);
+        view.ui.add(toAdd, "top-left");
+    };
+
+    updateView(isResponsiveSize);
+
+
 
     // when you figure out everything with the slider, do this!
     // https://developers.arcgis.com/javascript/latest/sample-code/layers-imagery-clientside/index.html
