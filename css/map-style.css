@@ -297,3 +297,9 @@ input:checked+.peatToggle:before {
 .esri-ui-bottom-left {
     z-index: 0;
 }
+
+@media (max-width: 600px) {
+    .esri-ui-bottom-right {
+        display: none;
+    }
+}

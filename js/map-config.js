@@ -251,7 +251,7 @@ require([
         }
     });
 
-    // Load responsive
+    // Load responsive (for rest see about line 480)
     const isResponsiveSize = view.widthBreakpoint === 'xsmall';
 
     // creat yearSlider  
@@ -478,8 +478,6 @@ require([
     });
     view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
 
-
-
     // breakpoints
     view.watch("widthBreakpoint", function(breakpoint) {
         switch (breakpoint) {
@@ -487,14 +485,8 @@ require([
                 updateView(true);
                 break;
             case "small":
-                updateView(true);
-                break;
             case "medium":
-                updateView(false);
-                break;
             case "large":
-                updateView(false);
-                break;
             case "xlarge":
                 updateView(false);
                 break;
