@@ -175,17 +175,12 @@ require([
 
     // create and add imagery layer to view
     const layer = new ImageryLayer({
-        //    url: 'https://abgis05.hutton.ac.uk:6443/arcgis/rest/services/wdlexp_netCDFs_2dims/ImageServer',
-        // Andrew Thorburn - 2020 03 31
-        // Line above commented out to use the minimised (tidier) web address
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims/ImageServer',
         renderingRule: colorRF,
         mosaicRule: mosaicRule,
         // format: 'lerc'
     });
     map.add(layer);
-
-
 
     // add tooltip/alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -459,24 +454,29 @@ require([
     });
     view.ui.add(scaleBar, 'bottom-left');
 
-    // Expand
+    // Mobile
     const leftDiv = document.getElementById('leftDiv');
     const leftDivExpand = new Expand({
         view: view,
         content: leftDiv,
-        expanded: true,
-        expandIconClass: 'esri-icon-description',
+        //   expandIconClass: 'esri-icon-description',
         group: 'top-left'
     });
 
     const leftDiv2Expand = new Expand({
         view: view,
         content: document.getElementById('leftDiv2'),
-        expanded: false,
         expandIconClass: 'esri-icon-layers',
         group: 'top-left'
     });
     view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
+
+    const leftDiv3Expand = new Expand({
+        view: view,
+        content: document.getElementById('modal-text'),
+        expandIconClass: 'esri-icon-description',
+        group: 'top-left'
+    });
 
     // breakpoints
     view.watch("widthBreakpoint", function(breakpoint) {
@@ -495,17 +495,43 @@ require([
     });
 
     function updateView(isMobile) {
-        setMobileLeftDiv(isMobile);
+        if (isMobile) {
+            view.ui.add(leftDiv3Expand, 'top-left');
+        } else {
+            leftDivExpand.destroy();
+            leftDiv2Expand.destroy();
+            leftDiv3Expand.destroy();
+        };
     };
+    const bottomDiv = document.getElementById('bottomDiv');
 
-    function setMobileLeftDiv(isMobile) {
-        const toAdd = isMobile ? leftDivExpand.expanded = true : leftDivExpand.expanded = false; // conditional (ternary) operator
-        const toRemove = isMobile ? leftDivExpand.expanded = false : leftDivExpand.expanded = true;
-        view.ui.remove(toRemove);
-        view.ui.add(toAdd, "top-left");
-    };
+
+    // leftDivExpand.onclick = function() {
+    //     modal.style.display = 'flex';
+    // };
+    // function updateBottomDivViz(isMobile) {
+    //     if (leftDivExpand.expanded) {
+    //         bottomDiv.style.zIndex = '-1';
+    //         console.log('expanded');
+    //     } else
+    //     if (leftDiv2Expand.expanded) {
+    //         bottomDiv.style.zIndex = '-1';
+    //         console.log('expanded2')
+    //     } else
+    //     if (leftDiv3Expand.expanded) {
+    //         bottomDiv.style.zIndex = '-1';
+    //         console.log('expanded3')
+    //     } else { console.log('not expanded') };
+
+    // };
+    //destroyBottomDiv(isResponsiveSize);
 
     updateView(isResponsiveSize);
+
+
+
+
+
 
 
 
