@@ -209,41 +209,51 @@ require([
             values: 11,
             labelsVisible: true
         }],
-        labelFormatFunction: function(value, type) { // customize fma labels
-            if (value === 1) {
-                return 'Native Conifer';
-            }
-            if (value === 2) {
-                return 'Native Broadleaf';
-            }
-            if (value === 3) {
-                return 'Multi-Purpose Broadleaf';
-            }
-            if (value === 4) {
-                return 'Multi-Purpose Conifer';
-            }
-            if (value === 5) {
-                return 'Multi-Purpose Sitka Spruce';
-            }
-            if (value === 6) {
-                return 'Production Conifer';
-            }
-            if (value === 7) {
-                return 'Production Sitka Spruce';
-            }
-            if (value === 8) {
-                return 'Production Douglas Fir';
-            }
-            if (value === 9) {
-                return 'Short Rotation Aspen';
-            }
-            if (value === 10) {
-                return 'Short Rotation Rauli';
-            }
-            if (value === 11) {
-                return 'Short Rotation Eucalypt';
-            }
-        }
+        labelFormatFunction: function(value) { // customize fma labels
+
+                if (value === 1) {
+                    return 'Native Conifer';
+                }
+                if (value === 2) {
+                    return 'Native Broadleaf';
+                }
+                if (value === 3) {
+                    return 'Multi-Purpose Broadleaf';
+                }
+                if (value === 4) {
+                    return 'Multi-Purpose Conifer';
+                }
+                if (value === 5) {
+                    return 'Multi-Purpose Sitka Spruce';
+                }
+                if (value === 6) {
+                    return 'Production Conifer';
+                }
+                if (value === 7) {
+                    return 'Production Sitka Spruce';
+                }
+                if (value === 8) {
+                    return 'Production Douglas Fir';
+                }
+                if (value === 9) {
+                    return 'Short Rotation Aspen';
+                }
+                if (value === 10) {
+                    return 'Short Rotation Rauli';
+                }
+                if (value === 11) {
+                    return 'Short Rotation Eucalypt';
+                }
+            } //,
+            // thumbCreatedFunction: function(value, thumbElement) {
+            //     thumbElement.addEventListener("focus", function() {
+            //         if (value === 1) {
+            //             return 'this is a test hover';
+            //         };
+            //         console.log(value);
+            //     });
+            // }
+
     });
 
     // Load responsive (for rest see about line 480)
@@ -456,6 +466,7 @@ require([
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
+    const leftDiv2 = document.getElementById('leftDiv2');
     const leftDivExpand = new Expand({
         view: view,
         content: leftDiv,
@@ -465,7 +476,7 @@ require([
 
     const leftDiv2Expand = new Expand({
         view: view,
-        content: document.getElementById('leftDiv2'),
+        content: leftDiv2,
         expandIconClass: 'esri-icon-layers',
         group: 'top-left'
     });
