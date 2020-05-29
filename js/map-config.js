@@ -2,9 +2,11 @@
 
 require([
     'esri/Map',
+    'esri/Basemap',
+    'esri/geometry/Point',
     'esri/views/MapView',
     'esri/widgets/Expand',
-    'esri/widgets/BasemapToggle',
+    //'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
     'esri/layers/FeatureLayer',
@@ -13,9 +15,11 @@ require([
     'esri/layers/support/MosaicRule',
     'esri/layers/support/DimensionalDefinition'
 ], function(Map,
+    Basemap,
+    Point,
     MapView,
     Expand,
-    BasemapToggle,
+    //BasemapToggle,
     ScaleBar,
     Slider,
     FeatureLayer,
@@ -24,9 +28,16 @@ require([
     MosaicRule,
     DimensionalDefinition) {
 
+    // new basemap definition 
+    const basemap = new Basemap({
+        portalItem: {
+            id: '54140d826fe34135abb3b60c157170dc' // os_open_greyscale_no_labels
+        }
+    });
+
     // create map
     const map = new Map({
-        basemap: 'topo-vector',
+        basemap: basemap, //'topo-vector',
         layers: []
     });
 
@@ -34,11 +45,13 @@ require([
     const view = new MapView({
         container: 'mapDiv',
         map: map,
-        center: [-4.5, 57],
-        zoom: 7.9,
-        constraints: {
-            // scale for zoom constraints
-            maxScale: 500000
+        center: new Point({ x: 200000, y: 790000, spatialReference: 27700 }),
+        zoom: 8,
+        // center: [-100.4593, 36.9014], //[-4.5, 57],
+        // zoom: 5, //7.9,
+        constraints: { // zoom constraints
+            maxScale: 400000,
+            minScale: 7000000
         }
     });
 
@@ -75,83 +88,6 @@ require([
         outputPixelType: 'U8'
     });
 
-    // symbol for forestLayer 
-    const forestSym = {
-        type: 'simple-fill', //autocasts as new SimpleFillSymbol()
-        color: [120, 162, 46, 1],
-        style: 'solid',
-        outline: {
-            //color: [120, 162, 46, 1],
-            width: '0px'
-        }
-    };
-
-    // create unique value renderers for forestLayer
-    const forestRenderer = {
-        type: 'unique-value', //autocasts as new UniqueValueRenderer()
-        defaultSymbol: [],
-        field: 'IFT_IOA',
-        uniqueValueInfos: [
-            // {value: 'Assumed woodland',
-            // symbol: forestSym,
-            // label: 'Assumed woodland'}, 
-            {
-                value: 'Broadleaved',
-                symbol: forestSym,
-                label: 'Broadleaved'
-            }, {
-                value: 'Conifer',
-                symbol: forestSym,
-                label: 'Conifer'
-            }, {
-                value: 'Coppice',
-                symbol: forestSym,
-                label: 'Coppice'
-            }, {
-                value: 'Coppice with standards',
-                symbol: forestSym,
-                label: 'Coppice with standards'
-            },
-            // {value: 'Felled',
-            //  symbol: forestSym,
-            // label: 'Felled'}, 
-            // {value: 'Ground prep',
-            // symbol: forestSym,
-            // label: 'Ground prep'}, 
-            {
-                value: 'Low density',
-                symbol: forestSym,
-                label: 'Low density'
-            }, {
-                value: 'Mixed mainly broadleaved',
-                symbol: forestSym,
-                label: 'Mixed mainly broadleaved'
-            }, {
-                value: 'Mixed mainly conifer',
-                symbol: forestSym,
-                label: 'Mixed mainly conifer'
-            }, {
-                value: 'Shrub',
-                symbol: forestSym,
-                label: 'Shrub'
-            }, {
-                value: 'Young trees',
-                symbol: forestSym,
-                label: 'Young trees'
-            }
-            // , {value: 'Failed',
-            // symbol: forestSym,
-            // label: 'Failed'}
-        ]
-    };
-
-    // create and add forest layer to view
-    const forestLayer = new FeatureLayer({
-        url: 'https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer/0',
-        renderer: forestRenderer
-    });
-    map.add(forestLayer, 0);
-
     // set initial FMA value
     const fmaDefinition = new DimensionalDefinition({
         variableName: 'Peat',
@@ -180,7 +116,108 @@ require([
         mosaicRule: mosaicRule,
         // format: 'lerc'
     });
-    map.add(layer);
+    map.add(layer, 0);
+
+    // symbol for forestLayer 
+    const forestSym = {
+        type: 'simple-fill', //autocasts as new SimpleFillSymbol()
+        color: [120, 162, 46, 1],
+        style: 'solid',
+        outline: {
+            width: '0px'
+        }
+    };
+
+    // create unique value renderers for forestLayer
+    const forestRenderer = {
+        type: 'unique-value', //autocasts as new UniqueValueRenderer()
+        defaultSymbol: [],
+        field: 'IFT_IOA',
+        uniqueValueInfos: [{
+                value: 'Broadleaved',
+                symbol: forestSym,
+                label: 'Broadleaved'
+            }, {
+                value: 'Conifer',
+                symbol: forestSym,
+                label: 'Conifer'
+            }, {
+                value: 'Coppice',
+                symbol: forestSym,
+                label: 'Coppice'
+            }, {
+                value: 'Coppice with standards',
+                symbol: forestSym,
+                label: 'Coppice with standards'
+            }, {
+                value: 'Low density',
+                symbol: forestSym,
+                label: 'Low density'
+            }, {
+                value: 'Mixed mainly broadleaved',
+                symbol: forestSym,
+                label: 'Mixed mainly broadleaved'
+            }, {
+                value: 'Mixed mainly conifer',
+                symbol: forestSym,
+                label: 'Mixed mainly conifer'
+            }, {
+                value: 'Shrub',
+                symbol: forestSym,
+                label: 'Shrub'
+            }, {
+                value: 'Young trees',
+                symbol: forestSym,
+                label: 'Young trees'
+            } // {value: 'Assumed woodland',symbol: forestSym,label: 'Assumed woodland'}, , {value: 'Failed',symbol: forestSym,label: 'Failed'},{value: 'Felled',symbol: forestSym,label: 'Felled'}, {value: 'Ground prep',symbol: forestSym,label: 'Ground prep'}, 
+        ]
+    };
+
+    // create and add forest layer to view
+    const forestLayer = new FeatureLayer({
+        url: 'https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer/0',
+        renderer: forestRenderer
+    });
+    map.add(forestLayer, 1);
+
+    // create renderer for conservancy layer 
+    const conservancyRenderer = {
+        type: 'simple',
+        symbol: {
+            type: 'simple-fill',
+            color: [0, 0, 0, 0], // null
+            outline: {
+                color: '#686868',
+                width: 1
+            }
+        }
+    };
+
+    // create labels for conservancy layer
+    const labelClass = {
+        symbol: {
+            type: 'text',
+            //color: 'black',
+            // haloColor: 'white',
+            //haloSize: 1,
+            labelExpressionInfo: {
+                expression: '$feature.featname'
+            },
+            minScale: 0,
+            maxScale: 0
+        }
+    };
+
+    // create and add conservancy boundaries to view
+    const conservancyLayer = new FeatureLayer({
+        url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
+        renderer: conservancyRenderer,
+        labelingInfo: [labelClass],
+        labelsVisible: true,
+        minScale: 0,
+        maxScale: 0
+    });
+    map.add(conservancyLayer, 2);
 
     // add tooltip/alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -246,7 +283,7 @@ require([
                 }
             } //,
             // thumbCreatedFunction: function(value, thumbElement) {
-            //     thumbElement.addEventListener("focus", function() {
+            //     thumbElement.addEventListener('focus', function() {
             //         if (value === 1) {
             //             return 'this is a test hover';
             //         };
@@ -448,11 +485,11 @@ require([
     };
 
     // create and add basemaptoggle
-    const basemapToggle = new BasemapToggle({
-        view: view,
-        nextBasemap: 'satellite'
-    });
-    view.ui.add(basemapToggle, 'bottom-right');
+    // const basemapToggle = new BasemapToggle({
+    //     view: view,
+    //     nextBasemap: 'satellite'
+    // });
+    // view.ui.add(basemapToggle, 'bottom-right');
 
     // moves the zoom widget to other corner
     view.ui.move('zoom', 'bottom-right');
@@ -462,7 +499,7 @@ require([
         view: view,
         unit: 'dual' // The scale bar displays both metric and non-metric units.
     });
-    view.ui.add(scaleBar, 'bottom-left');
+    view.ui.add(scaleBar, 'bottom-right');
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
@@ -490,15 +527,15 @@ require([
     });
 
     // breakpoints
-    view.watch("widthBreakpoint", function(breakpoint) {
+    view.watch('widthBreakpoint', function(breakpoint) {
         switch (breakpoint) {
-            case "xsmall":
+            case 'xsmall':
                 updateView(true);
                 break;
-            case "small":
-            case "medium":
-            case "large":
-            case "xlarge":
+            case 'small':
+            case 'medium':
+            case 'large':
+            case 'xlarge':
                 updateView(false);
                 break;
             default:
