@@ -9,6 +9,7 @@ require([
     //'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
+    'esri/layers/TileLayer',
     'esri/layers/FeatureLayer',
     'esri/layers/ImageryLayer',
     'esri/layers/support/RasterFunction',
@@ -22,6 +23,7 @@ require([
     //BasemapToggle,
     ScaleBar,
     Slider,
+    TileLayer,
     FeatureLayer,
     ImageryLayer,
     RasterFunction,
@@ -179,45 +181,59 @@ require([
         renderer: forestRenderer
     });
     map.add(forestLayer, 1);
-
-    // create renderer for conservancy layer 
-    const conservancyRenderer = {
-        type: 'simple',
-        symbol: {
-            type: 'simple-fill',
-            color: [0, 0, 0, 0], // null
-            outline: {
-                color: '#686868',
-                width: 1
+    /*
+        // create renderer for conservancy layer 
+        const conservancyRenderer = {
+            type: 'simple',
+            symbol: {
+                type: 'simple-fill',
+                color: [0, 0, 0, 0], // null
+                outline: {
+                    color: '#686868',
+                    width: 1
+                }
             }
-        }
-    };
+        };
 
-    // create labels for conservancy layer
-    const labelClass = {
-        symbol: {
-            type: 'text',
-            //color: 'black',
-            // haloColor: 'white',
-            //haloSize: 1,
-            labelExpressionInfo: {
-                expression: '$feature.featname'
-            },
+        // create labels for conservancy layer
+        const labelClass = {
+            symbol: {
+                type: 'text',
+                //color: 'black',
+                // haloColor: 'white',
+                //haloSize: 1,
+                labelExpressionInfo: {
+                    expression: '$feature.featname'
+                },
+                minScale: 0,
+                maxScale: 0
+            }
+        };
+
+        // create and add conservancy boundaries to view
+        const conservancyLayer = new FeatureLayer({
+            url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
+            renderer: conservancyRenderer,
+            labelingInfo: [labelClass],
+            labelsVisible: true,
             minScale: 0,
             maxScale: 0
-        }
-    };
+        });
+        map.add(conservancyLayer, 2); */
 
-    // create and add conservancy boundaries to view
-    const conservancyLayer = new FeatureLayer({
-        url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
-        renderer: conservancyRenderer,
-        labelingInfo: [labelClass],
-        labelsVisible: true,
-        minScale: 0,
-        maxScale: 0
+    const roadLayer = new FeatureLayer({
+        portalItem: {
+            id: '7514ab2371b642ac93275a10f8611dbc' // os open roads
+        }
     });
-    map.add(conservancyLayer, 2);
+    map.add(roadLayer, 2);
+
+    const gbNamesLayer = new FeatureLayer({
+        portalItem: {
+            id: 'e8edf88fe90646f0bc7e5945d0837db2' // GB Cartographic Local Names
+        }
+    });
+    map.add(gbNamesLayer, 3);
 
     // add tooltip/alert when zoom constraint is reached -- but only once!
     let executed = false;
