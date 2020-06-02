@@ -9,12 +9,12 @@ require([
     //'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
-    'esri/layers/TileLayer',
     'esri/layers/FeatureLayer',
     'esri/layers/ImageryLayer',
     'esri/layers/support/RasterFunction',
     'esri/layers/support/MosaicRule',
-    'esri/layers/support/DimensionalDefinition'
+    'esri/layers/support/DimensionalDefinition',
+    'esri/layers/support/LabelClass'
 ], function(Map,
     Basemap,
     Point,
@@ -23,12 +23,12 @@ require([
     //BasemapToggle,
     ScaleBar,
     Slider,
-    TileLayer,
     FeatureLayer,
     ImageryLayer,
     RasterFunction,
     MosaicRule,
-    DimensionalDefinition) {
+    DimensionalDefinition,
+    LabelClass) {
 
     // new basemap definition 
     const basemap = new Basemap({
@@ -113,7 +113,7 @@ require([
 
     // create and add imagery layer to view
     const layer = new ImageryLayer({
-        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims/ImageServer',
+        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
         renderingRule: colorRF,
         mosaicRule: mosaicRule,
         // format: 'lerc'
@@ -130,47 +130,38 @@ require([
         }
     };
 
-    // create unique value renderers for forestLayer
+    // create unique value renderers for 'existing forestry' of forestLayer
     const forestRenderer = {
         type: 'unique-value', //autocasts as new UniqueValueRenderer()
         defaultSymbol: [],
         field: 'IFT_IOA',
         uniqueValueInfos: [{
                 value: 'Broadleaved',
-                symbol: forestSym,
-                label: 'Broadleaved'
+                symbol: forestSym
             }, {
                 value: 'Conifer',
-                symbol: forestSym,
-                label: 'Conifer'
+                symbol: forestSym
             }, {
                 value: 'Coppice',
-                symbol: forestSym,
-                label: 'Coppice'
+                symbol: forestSym
             }, {
                 value: 'Coppice with standards',
-                symbol: forestSym,
-                label: 'Coppice with standards'
+                symbol: forestSym
             }, {
                 value: 'Low density',
-                symbol: forestSym,
-                label: 'Low density'
+                symbol: forestSym
             }, {
                 value: 'Mixed mainly broadleaved',
-                symbol: forestSym,
-                label: 'Mixed mainly broadleaved'
+                symbol: forestSym
             }, {
                 value: 'Mixed mainly conifer',
-                symbol: forestSym,
-                label: 'Mixed mainly conifer'
+                symbol: forestSym
             }, {
                 value: 'Shrub',
-                symbol: forestSym,
-                label: 'Shrub'
+                symbol: forestSym
             }, {
                 value: 'Young trees',
-                symbol: forestSym,
-                label: 'Young trees'
+                symbol: forestSym
             } // {value: 'Assumed woodland',symbol: forestSym,label: 'Assumed woodland'}, , {value: 'Failed',symbol: forestSym,label: 'Failed'},{value: 'Felled',symbol: forestSym,label: 'Felled'}, {value: 'Ground prep',symbol: forestSym,label: 'Ground prep'}, 
         ]
     };
@@ -181,61 +172,85 @@ require([
         renderer: forestRenderer
     });
     map.add(forestLayer, 1);
-    /*
-        // create renderer for conservancy layer 
-        const conservancyRenderer = {
-            type: 'simple',
+
+    // create renderer for conservancy layer 
+    const conservancyRenderer = {
+        type: 'simple',
+        symbol: {
+            type: 'simple-fill',
+            color: [0, 0, 0, 0], // null
+            outline: {
+                color: 'black',
+                width: .5
+            }
+        }
+    };
+
+    // create labels for conservancy layer
+    const conservancyLabel = new LabelClass({
+        labelExpressionInfo: { expression: '$feature.featname', },
+        symbol: {
+            type: 'text',
+            color: 'black',
+            font: { size: 12 },
+            haloColor: 'white',
+            haloSize: 1.2,
+        },
+        minScale: 0,
+        maxScale: 0
+    });
+
+    // create and add conservancy boundaries to view
+    const conservancyLayer = new FeatureLayer({
+        url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
+        renderer: conservancyRenderer,
+        labelingInfo: [conservancyLabel],
+        minScale: 0,
+        maxScale: 0
+    });
+    map.add(conservancyLayer, 2);
+
+    // create symbol for roadLayer 
+    /*    const roadSym = {
             symbol: {
-                type: 'simple-fill',
-                color: [0, 0, 0, 0], // null
-                outline: {
-                    color: '#686868',
-                    width: 1
-                }
+                type: 'simple-line',
+                width: 1,
+                color: 'black'
             }
         };
 
-        // create labels for conservancy layer
-        const labelClass = {
-            symbol: {
-                type: 'text',
-                //color: 'black',
-                // haloColor: 'white',
-                //haloSize: 1,
-                labelExpressionInfo: {
-                    expression: '$feature.featname'
-                },
-                minScale: 0,
-                maxScale: 0
-            }
+        // create rendered for roadLayer 
+        const roadRenderer = {
+            type: 'unique-value',
+            defaultSymbol: [],
+            field: 'class',
+            uniqueValueInfos: [{
+                value: 'A Road',
+                symbol: roadSym
+            }, {
+                value: 'Motorway',
+                symbol: roadSym
+            }]
         };
 
-        // create and add conservancy boundaries to view
-        const conservancyLayer = new FeatureLayer({
-            url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
-            renderer: conservancyRenderer,
-            labelingInfo: [labelClass],
-            labelsVisible: true,
+        // create and add road layer to view
+        const roadLayer = new FeatureLayer({
+            url: 'https://services.arcgis.com/qHLhLQrcvEnxjtPr/ArcGIS/rest/services/OSOpenRoads/FeatureServer/0', // os open roads
+            renderer: roadRenderer,
             minScale: 0,
             maxScale: 0
         });
-        map.add(conservancyLayer, 2); 
+        map.add(roadLayer, 3); */
 
-    const roadLayer = new FeatureLayer({
-        portalItem: {
-            id: '7514ab2371b642ac93275a10f8611dbc' // os open roads
-        }
-    });
-    map.add(roadLayer, 2);
-
-    const gbNamesLayer = new FeatureLayer({
+    // create and add gbNamesLayer to view
+    /*const gbNamesLayer = new FeatureLayer({
         portalItem: {
             id: 'e8edf88fe90646f0bc7e5945d0837db2' // GB Cartographic Local Names
         }
     });
     map.add(gbNamesLayer, 3);*/
 
-    // add tooltip/alert when zoom constraint is reached -- but only once!
+    // add alert when zoom constraint is reached -- but only once!
     let executed = false;
     view.on('mouse-wheel', function(event) {
         if (!executed && view.zoom == 10) {
@@ -263,7 +278,6 @@ require([
             labelsVisible: true
         }],
         labelFormatFunction: function(value) { // customize fma labels
-
                 if (value === 1) {
                     return 'Native Conifer';
                 }
@@ -297,7 +311,7 @@ require([
                 if (value === 11) {
                     return 'Short Rotation Eucalypt';
                 }
-            } //,
+            }
             // thumbCreatedFunction: function(value, thumbElement) {
             //     thumbElement.addEventListener('focus', function() {
             //         if (value === 1) {
@@ -305,14 +319,14 @@ require([
             //         };
             //         console.log(value);
             //     });
-            // }
-
+            //}
     });
 
-    // Load responsive (for rest see about line 480)
+    // Load responsive (for rest see line ~480)
     const isResponsiveSize = view.widthBreakpoint === 'xsmall';
 
     // creat yearSlider  
+    // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels and rangeLabels = true
     const yearSlider = new Slider({
         container: 'yearSlider',
         min: 5,
@@ -330,7 +344,7 @@ require([
             values: 20,
             labelsVisible: !isResponsiveSize,
         }]
-    }); // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels and rangeLabels = true
+    });
 
     // set vars for the fma charts in rightDiv
     /* let fmaChart = document.getElementById('rightDivImg');
@@ -347,33 +361,6 @@ require([
                  break;
              case slider.get('values') == 2:
                  fmaChart.src = fma2Chart;
-                 break;
-             case slider.get('values') == 3:
-                 fmaChart.src = fma3Chart;
-                 break;
-             case slider.get('values') == 4:
-                 fmaChart.src = fma4Chart;
-                 break;
-             case slider.get('values') == 5:
-                 fmaChart.src = fma3Chart;
-                 break;
-             case slider.get('values') == 6:
-                 fmaChart.src = fma2Chart;
-                 break;
-             case slider.get('values') == 7:
-                 fmaChart.src = fma1Chart;
-                 break;
-             case slider.get('values') == 8:
-                 fmaChart.src = fma2Chart;
-                 break;
-             case slider.get('values') == 9:
-                 fmaChart.src = fma3Chart;
-                 break;
-             case slider.get('values') == 10:
-                 fmaChart.src = fma4Chart;
-                 break;
-             case slider.get('values') == 11:
-                 fmaChart.src = fma3Chart;
                  break;
              default:
                  fmaChart.src = fma4Chart;
@@ -487,7 +474,7 @@ require([
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
     const closeBtn = document.querySelector('.close-btn');
-    modal.style.display = 'none'; // change this to flex to default open
+    modal.style.display = 'none'; // change this to none to default closed
     modalBtn.onclick = function() {
         modal.style.display = 'flex';
     };
