@@ -219,7 +219,7 @@ require([
             minScale: 0,
             maxScale: 0
         });
-        map.add(conservancyLayer, 2); */
+        map.add(conservancyLayer, 2); 
 
     const roadLayer = new FeatureLayer({
         portalItem: {
@@ -233,7 +233,7 @@ require([
             id: 'e8edf88fe90646f0bc7e5945d0837db2' // GB Cartographic Local Names
         }
     });
-    map.add(gbNamesLayer, 3);
+    map.add(gbNamesLayer, 3);*/
 
     // add tooltip/alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -568,27 +568,6 @@ require([
         };
     };
     const bottomDiv = document.getElementById('bottomDiv');
-
-
-    // leftDivExpand.onclick = function() {
-    //     modal.style.display = 'flex';
-    // };
-    // function updateBottomDivViz(isMobile) {
-    //     if (leftDivExpand.expanded) {
-    //         bottomDiv.style.zIndex = '-1';
-    //         console.log('expanded');
-    //     } else
-    //     if (leftDiv2Expand.expanded) {
-    //         bottomDiv.style.zIndex = '-1';
-    //         console.log('expanded2')
-    //     } else
-    //     if (leftDiv3Expand.expanded) {
-    //         bottomDiv.style.zIndex = '-1';
-    //         console.log('expanded3')
-    //     } else { console.log('not expanded') };
-
-    // };
-    //destroyBottomDiv(isResponsiveSize);
 
     updateView(isResponsiveSize);
 

@@ -114,7 +114,7 @@ body {
     padding: 20px;
     margin: auto;
     width: 75%;
-    height: 60%;
+    height: auto
     overflow-y: auto;
 }
 
