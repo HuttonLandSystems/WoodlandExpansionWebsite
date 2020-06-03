@@ -19,7 +19,7 @@
     <meta http-equiv='Expires' content='0'>
 
     <!-- Dublin Core meta tags -->
-    <meta name='DC.Date.modified' content='2 June 2020'>
+    <meta name='DC.Date.modified' content='3 June 2020'>
     <meta name='DC.language' content='en'>
     <meta name='DC.contributor' content='The James Hutton Institute'>
     <meta name='DC.format' content='text/html'>
@@ -75,10 +75,22 @@
                     planting of deep peat areas, but also that additional incentives or constraints may be needed to achieve the aggregate rates of emission mitigation implied by policy commitments. Supplementary carbon storage tonnage targets for new
                     forestry would introduce a floor for carbon sequestration outcomes but would still allow for flexibility in achieving an appropriate balance in the trade-offs between carbon sequestration and the many other objectives that new woodlands
                     are expected to deliver.<br><br> Matthews, K.B., Wardell-Johnson, D., Miller, D.G., Fitton, N., Jones, E., Bathgate, S., Randle, T., Matthews, R., Smith, P., Perks, M., 2020 in press. Not seeing the carbon for the trees? Why area-based
-                    targets for establishing new woodlands can limit or underplay their climate change mitigation benefits. Land Use Policy.<br><br> See graphical abstract <a href='img/graphicalAbstract.png' target='_blank'>here</a>. </p>
+                    targets for establishing new woodlands can limit or underplay their climate change mitigation benefits. Land Use Policy.<br><br> See graphical abstract <button id='abstractButton' class='esri-widget'><u>here</u></button>.
+                    <div class='abstractModal'>
+                        <div class='abstractContent'>
+                            <span class='abstractCloseBtn'>&times;</span>
+                            <img src='img/graphicalAbstract.png'>
+                        </div>
+                    </div>
+
+
+
+                </p>
+
                 <a href='https://www.hutton.ac.uk/' target='_blank'>
                     <img id='huttonLogo' src='https://www.hutton.ac.uk/sites/all/themes/jameshutton/images/logos/jhi.png'>
                 </a>
+
             </div>
         </div>
     </div>
@@ -89,24 +101,26 @@
     <div id='applicationDiv'>
         <div id='mapDiv'> </div>
         <div id='wholeLeftDiv'>
-            <div id='leftDiv'>
-                <button id='modal-btn' class='esri-widget'> About the Map</button>
-                <div id='peatCheckbox'>
-                    <p style='margin: 10 0;' id='title' class='esri-widget'>Turn Peat areas on/off</p>
-                    <label id='peatLabel'><input id='peatInput' type='checkbox' checked='yes' /> <span class='peatToggle'></span> </label>
-                </div>
-                <div id='title' class='esri-widget'>
-                    <p style='margin: 10 0;'>Drag to select <br>Forestry Management Alternative</p>
-                </div>
-                <div id='rangeSlider' class='esri-widget'></div>
-            </div>
+            <div id='leftDiv3'>
+                <h2 id='title' class='esri-widget'>Mapping Net Change in Carbon from Afforestation in Scotland</h2>
+                <button id='modal-btn' class='esri-widget'> About the Map</button></div>
             <div id='leftDiv2'>
                 <div id='title' class='esri-widget'>
-                    <!-- <h3 style='margin:0 0 10 0 ;'>Legend</h3> -->
-                    <p style='margin:0;'>Tonnes of carbon stored <br>per hectare per year</p>
-                    <img id='legendImg' src='img/legend2.jpg'>
-                    <p style='margin:5 0'>Existing Forestry <a href='https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer' target='_blank'>(source)</a> </p>
+                    <p>Existing Forestry <a href='https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer' target='_blank'>(source)</a> </p>
                     <span id='forestLegendImg'></span>
+                    <p>Tonnes of carbon stored <br>per hectare per year</p>
+                    <img id='legendImg' src='img/legend2.jpg'>
+
+                </div>
+            </div>
+            <div id='leftDiv'>
+                <div id='title' class='esri-widget'>
+                    <p>Drag to select <br>Forestry Management Alternative</p>
+                </div>
+                <div id='rangeSlider' class='esri-widget'></div>
+                <div id='peatCheckbox'>
+                    <p id='title' class='esri-widget'>Turn Peat areas on/off</p>
+                    <label id='peatLabel'><input id='peatInput' type='checkbox' checked='yes' /> <span class='peatToggle'></span> </label>
                 </div>
             </div>
 

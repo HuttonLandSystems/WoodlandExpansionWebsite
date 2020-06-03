@@ -9,6 +9,7 @@ require([
     //'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
+    'esri/widgets/Home',
     'esri/layers/FeatureLayer',
     'esri/layers/ImageryLayer',
     'esri/layers/support/RasterFunction',
@@ -23,6 +24,7 @@ require([
     //BasemapToggle,
     ScaleBar,
     Slider,
+    Home,
     FeatureLayer,
     ImageryLayer,
     RasterFunction,
@@ -47,7 +49,7 @@ require([
     const view = new MapView({
         container: 'mapDiv',
         map: map,
-        center: new Point({ x: 200000, y: 790000, spatialReference: 27700 }),
+        center: new Point({ x: 260000, y: 785000, spatialReference: 27700 }),
         zoom: 8,
         // center: [-100.4593, 36.9014], //[-4.5, 57],
         // zoom: 5, //7.9,
@@ -181,7 +183,7 @@ require([
             color: [0, 0, 0, 0], // null
             outline: {
                 color: 'black',
-                width: .5
+                width: .3
             }
         }
     };
@@ -192,7 +194,7 @@ require([
         symbol: {
             type: 'text',
             color: 'black',
-            font: { size: 12 },
+            font: { size: 11 },
             haloColor: 'white',
             haloSize: 1.2,
         },
@@ -202,53 +204,13 @@ require([
 
     // create and add conservancy boundaries to view
     const conservancyLayer = new FeatureLayer({
-        url: 'https://services9.arcgis.com/RCPJF8Z8BrfjscvL/arcgis/rest/services/Administrative_Boundaries/FeatureServer/0/',
+        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/ConservancyBoundaries/MapServer',
         renderer: conservancyRenderer,
         labelingInfo: [conservancyLabel],
         minScale: 0,
         maxScale: 0
     });
     map.add(conservancyLayer, 2);
-
-    // create symbol for roadLayer 
-    /*    const roadSym = {
-            symbol: {
-                type: 'simple-line',
-                width: 1,
-                color: 'black'
-            }
-        };
-
-        // create rendered for roadLayer 
-        const roadRenderer = {
-            type: 'unique-value',
-            defaultSymbol: [],
-            field: 'class',
-            uniqueValueInfos: [{
-                value: 'A Road',
-                symbol: roadSym
-            }, {
-                value: 'Motorway',
-                symbol: roadSym
-            }]
-        };
-
-        // create and add road layer to view
-        const roadLayer = new FeatureLayer({
-            url: 'https://services.arcgis.com/qHLhLQrcvEnxjtPr/ArcGIS/rest/services/OSOpenRoads/FeatureServer/0', // os open roads
-            renderer: roadRenderer,
-            minScale: 0,
-            maxScale: 0
-        });
-        map.add(roadLayer, 3); */
-
-    // create and add gbNamesLayer to view
-    /*const gbNamesLayer = new FeatureLayer({
-        portalItem: {
-            id: 'e8edf88fe90646f0bc7e5945d0837db2' // GB Cartographic Local Names
-        }
-    });
-    map.add(gbNamesLayer, 3);*/
 
     // add alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -474,7 +436,6 @@ require([
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
     const closeBtn = document.querySelector('.close-btn');
-    modal.style.display = 'none'; // change this to none to default closed
     modalBtn.onclick = function() {
         modal.style.display = 'flex';
     };
@@ -486,6 +447,22 @@ require([
             modal.style.display = 'none';
         }
     };
+
+    // modal withIN modal 'graphical abstract' 
+    const abstractModalBtn = document.getElementById('abstractButton');
+    const abstractModal = document.querySelector('.abstractModal');
+    const abstractCloseBtn = document.querySelector('.abstractCloseBtn');
+    abstractModalBtn.onclick = function() {
+        abstractModal.style.display = 'flex';
+    };
+    abstractCloseBtn.onclick = function() {
+        abstractModal.style.display = 'none';
+    };
+    // window.onclick = function(e) {
+    //     if (e.target == abstractModal) {
+    //         abstractModal.style.display = 'none';
+    //     }
+    // };
 
     // create and add basemaptoggle
     // const basemapToggle = new BasemapToggle({
@@ -504,6 +481,12 @@ require([
     });
     view.ui.add(scaleBar, 'bottom-right');
 
+    // create and add home button to view 
+    const home = new Home({
+        view: view
+    });
+    view.ui.add(home, 'bottom-right');
+
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
     const leftDiv2 = document.getElementById('leftDiv2');
@@ -520,7 +503,7 @@ require([
         expandIconClass: 'esri-icon-layers',
         group: 'top-left'
     });
-    view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
+    //view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
 
     const leftDiv3Expand = new Expand({
         view: view,
@@ -530,12 +513,14 @@ require([
     });
 
     // breakpoints
-    view.watch('widthBreakpoint', function(breakpoint) {
+    view.watch('widthBreakpoint', 'heightBreakpoint', function(breakpoint) {
         switch (breakpoint) {
             case 'xsmall':
                 updateView(true);
                 break;
             case 'small':
+                updateView(true);
+                break;
             case 'medium':
             case 'large':
             case 'xlarge':
@@ -547,21 +532,19 @@ require([
 
     function updateView(isMobile) {
         if (isMobile) {
-            view.ui.add(leftDiv3Expand, 'top-left');
+            view.ui.add([leftDiv3Expand, leftDivExpand, leftDiv2Expand], 'top-left');
+            modal.style.display = 'none';
+            view.ui.add(scaleBar, 'bottom-left');
         } else {
             leftDivExpand.destroy();
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
+            modal.style.display = 'flex'; // auto opens modal 'About' box
         };
     };
     const bottomDiv = document.getElementById('bottomDiv');
 
     updateView(isResponsiveSize);
-
-
-
-
-
 
 
 

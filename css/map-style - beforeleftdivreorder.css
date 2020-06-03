@@ -32,31 +32,6 @@ body {
     flex: 1 0 auto;
     flex-direction: column;
     z-index: 2;
-    max-height: 80%;
-}
-
-#leftDiv3 {
-    position: relative;
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    top: 15;
-    left: 15;
-    width: 290px;
-    padding: 10 20 0 20;
-    background-color: white;
-}
-
-#leftDiv2 {
-    position: relative;
-    display: flex;
-    flex: 1 0 auto;
-    flex-direction: column;
-    justify-content: center;
-    height: 210px;
-    width: 290px;
-    padding: 0 20 5 20;
-    background-color: white;
 }
 
 #leftDiv {
@@ -65,38 +40,41 @@ body {
     flex: 0 0 auto;
     flex-direction: column;
     justify-content: center;
-    height: 440px;
+    height: 455px;
+    max-height: 500px;
     width: 290px;
-    padding: 0 20 15 20;
+    padding: 10 20 25 20;
     background-color: white;
 }
 
+#leftDiv2 {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    justify-content: center;
+    height: 220px;
+    max-height: 400px;
+    width: 240px;
+    padding: 20 20 25 20;
+    background-color: white;
+    z-index: 8;
+}
+
 @media (min-width: 600px) {
-    #leftDiv2 {
+    #leftDiv {
         top: 15;
         left: 15;
     }
-    #leftDiv {
+    #leftDiv2 {
         left: 15;
+        width: 290px;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 }
 
-#leftDiv3 #title {
-    line-height: 1.1em;
-    margin: 0;
-    font-size: 1.2em;
-    text-align: center;
-}
-
-#leftDiv2 p {
-    margin: 5 0;
-}
-
-#leftDiv p {
-    margin: 10 0;
-}
-
-#leftDiv3 #modal-btn {
+#modal-btn {
     height: 38px;
     width: 100%;
     margin-top: 10px;
@@ -108,26 +86,12 @@ body {
 }
 
 @media (max-width: 600px) {
-    #leftDiv3 #modal-btn {
+    #modal-btn {
         display: none;
-    }
-    #leftDiv3 #title {
-        position: fixed;
-        top: 0;
-        left: 0;
-        margin: 0;
-        padding: 5 0;
-        background-color: white;
-    }
-    #wholeLeftDiv {
-        z-index: 0;
-    }
-    #mapDiv {
-        padding-top: 50px;
     }
 }
 
-#leftDiv3 #modal-btn:hover {
+#modal-btn:hover {
     background-color: #0061a7;
 }
 
@@ -150,7 +114,7 @@ body {
     padding: 20px;
     margin: auto;
     width: 75%;
-    height: auto;
+    height: auto
     overflow-y: auto;
 }
 
@@ -160,6 +124,13 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+
+/* @media (max-width: 600px) {
+    #modal-text {
+        max-height: 10%;
+    }
+} */
 
 .close-btn {
     float: right;
@@ -266,8 +237,7 @@ input:checked+.peatToggle:before {
     display: flex;
     flex-direction: column;
     flex: 0 0 70px;
-    /* height: 130px; */
-    max-height: 13%;
+    height: 130px;
     left: 0;
     right: 0;
     padding: 0 5 10 5;
@@ -286,23 +256,11 @@ input:checked+.peatToggle:before {
     display: flex;
     flex: 0 0 70px;
     justify-content: space-around;
-    align-items: flex-end;
+    align-items: baseline;
     padding: 0 40 20 0;
     bottom: 15;
     left: 0;
     right: 0;
-}
-
-@media (max-width: 600px) {
-    #title.slider-title {
-        margin: 5 0 0 0;
-        max-height: 20%;
-        font-size: 12px;
-    }
-    #sliderDiv {
-        padding: 0;
-        bottom: 0;
-    }
 }
 
 #yearSlider {
@@ -362,61 +320,19 @@ input:checked+.peatToggle:before {
 
 /******** Misc ********/
 
+.esri-ui-bottom-left {
+    z-index: 0;
+}
+
 @media (max-width: 600px) {
     .esri-ui-bottom-right {
         display: none;
     }
-    .esri-ui-bottom-left {
-        z-index: 0;
-    }
 }
 
-#abstractButton {
-    border: 0;
-    background-color: white;
-    padding: 0;
+.esri-view-width-xsmall .esri-expand--auto .esri-expand__container--expanded {
+    z-index: 99;
 }
 
-.abstractModal {
-    display: none;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9;
-}
 
-.abstractContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: auto;
-    width: auto;
-    height: auto;
-    overflow-y: auto;
-}
-
-.abstractCloseBtn {
-    float: right;
-    color: gray;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.abstractCloseBtn:hover {
-    color: black;
-}
-
-.abstractContent img {
-    width: 100%;
-}
-
-#abstractButton {
-    cursor: pointer;
-    color: -webkit-link;
-    display: contents;
-}
+/******** Tooltips ********/
