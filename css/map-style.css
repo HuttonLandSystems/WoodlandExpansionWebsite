@@ -24,7 +24,7 @@ body {
 }
 
 
-/******** Floating div with leftDiv [About Modal, peatCheckbox, rangeSlider] and leftDiv2 [legend] ********/
+/******** Floating div with leftDiv [peatCheckbox, rangeSlider] and leftDiv2 [legend] and leftDiv3 [About Modal]********/
 
 #wholeLeftDiv {
     position: fixed;
@@ -154,11 +154,23 @@ body {
     overflow-y: auto;
 }
 
+#modal-elements {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #modal-text {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    text-align: justify;
+}
+
+@media (max-width: 600px) {
+    #modal-text {
+        text-align: left;
+    }
 }
 
 .close-btn {
@@ -173,7 +185,57 @@ body {
 }
 
 #huttonLogo {
-    padding-top: 20px;
+    padding-top: 10px;
+}
+
+
+/******** Graphical Abstract Modal ********/
+
+#abstractButton {
+    border: 0;
+    background-color: white;
+    padding: 0;
+    cursor: pointer;
+    color: -webkit-link;
+    display: contents;
+}
+
+.abstractModal {
+    display: none;
+    position: fixed;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+}
+
+.abstractContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    width: auto;
+    height: auto;
+    overflow-y: auto;
+}
+
+.abstractCloseBtn {
+    float: right;
+    color: gray;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.abstractCloseBtn:hover {
+    color: black;
+}
+
+.abstractContent img {
+    width: 100%;
 }
 
 #peatLabel {
@@ -265,8 +327,7 @@ input:checked+.peatToggle:before {
     position: relative;
     display: flex;
     flex-direction: column;
-    flex: 0 0 70px;
-    /* height: 130px; */
+    flex: 0 0 auto;
     max-height: 13%;
     left: 0;
     right: 0;
@@ -296,7 +357,6 @@ input:checked+.peatToggle:before {
 @media (max-width: 600px) {
     #title.slider-title {
         margin: 5 0 0 0;
-        max-height: 20%;
         font-size: 12px;
     }
     #sliderDiv {
@@ -339,27 +399,6 @@ input:checked+.peatToggle:before {
 }
 
 
-/******** Floating div with ribbon style graphs for each FMA ********/
-
-
-/*#rightDiv {
-    position: fixed;
-    display: flex;
-    top: 20;
-    right: 20;
-    max-width: 25%;
-    height: auto;
-    background-color: white;
-    padding: 10 5; 
-}
-
-#rightDivImg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}*/
-
-
 /******** Misc ********/
 
 @media (max-width: 600px) {
@@ -369,54 +408,4 @@ input:checked+.peatToggle:before {
     .esri-ui-bottom-left {
         z-index: 0;
     }
-}
-
-#abstractButton {
-    border: 0;
-    background-color: white;
-    padding: 0;
-}
-
-.abstractModal {
-    display: none;
-    position: fixed;
-    justify-content: center;
-    align-items: center;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9;
-}
-
-.abstractContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin: auto;
-    width: auto;
-    height: auto;
-    overflow-y: auto;
-}
-
-.abstractCloseBtn {
-    float: right;
-    color: gray;
-    font-size: 30px;
-    font-weight: bold;
-}
-
-.abstractCloseBtn:hover {
-    color: black;
-}
-
-.abstractContent img {
-    width: 100%;
-}
-
-#abstractButton {
-    cursor: pointer;
-    color: -webkit-link;
-    display: contents;
 }

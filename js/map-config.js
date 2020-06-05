@@ -6,7 +6,6 @@ require([
     'esri/geometry/Point',
     'esri/views/MapView',
     'esri/widgets/Expand',
-    //'esri/widgets/BasemapToggle',
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
     'esri/widgets/Home',
@@ -21,7 +20,6 @@ require([
     Point,
     MapView,
     Expand,
-    //BasemapToggle,
     ScaleBar,
     Slider,
     Home,
@@ -41,7 +39,7 @@ require([
 
     // create map
     const map = new Map({
-        basemap: basemap, //'topo-vector',
+        basemap: basemap,
         layers: []
     });
 
@@ -49,10 +47,8 @@ require([
     const view = new MapView({
         container: 'mapDiv',
         map: map,
-        center: new Point({ x: 260000, y: 785000, spatialReference: 27700 }),
+        center: new Point({ x: 260000, y: 785000, spatialReference: 27700 }), // reprojected to allow OS basemap
         zoom: 8,
-        // center: [-100.4593, 36.9014], //[-4.5, 57],
-        // zoom: 5, //7.9,
         constraints: { // zoom constraints
             maxScale: 400000,
             minScale: 7000000
@@ -117,8 +113,7 @@ require([
     const layer = new ImageryLayer({
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
         renderingRule: colorRF,
-        mosaicRule: mosaicRule,
-        // format: 'lerc'
+        mosaicRule: mosaicRule
     });
     map.add(layer, 0);
 
@@ -134,38 +129,37 @@ require([
 
     // create unique value renderers for 'existing forestry' of forestLayer
     const forestRenderer = {
-        type: 'unique-value', //autocasts as new UniqueValueRenderer()
+        type: 'unique-value', //autocasts as new UniqueValueRenderer() -- but still throws error
         defaultSymbol: [],
         field: 'IFT_IOA',
-        uniqueValueInfos: [{
-                value: 'Broadleaved',
-                symbol: forestSym
-            }, {
-                value: 'Conifer',
-                symbol: forestSym
-            }, {
-                value: 'Coppice',
-                symbol: forestSym
-            }, {
-                value: 'Coppice with standards',
-                symbol: forestSym
-            }, {
-                value: 'Low density',
-                symbol: forestSym
-            }, {
-                value: 'Mixed mainly broadleaved',
-                symbol: forestSym
-            }, {
-                value: 'Mixed mainly conifer',
-                symbol: forestSym
-            }, {
-                value: 'Shrub',
-                symbol: forestSym
-            }, {
-                value: 'Young trees',
-                symbol: forestSym
-            } // {value: 'Assumed woodland',symbol: forestSym,label: 'Assumed woodland'}, , {value: 'Failed',symbol: forestSym,label: 'Failed'},{value: 'Felled',symbol: forestSym,label: 'Felled'}, {value: 'Ground prep',symbol: forestSym,label: 'Ground prep'}, 
-        ]
+        uniqueValueInfos: [{ // only show the existing forestry categories
+            value: 'Broadleaved',
+            symbol: forestSym
+        }, {
+            value: 'Conifer',
+            symbol: forestSym
+        }, {
+            value: 'Coppice',
+            symbol: forestSym
+        }, {
+            value: 'Coppice with standards',
+            symbol: forestSym
+        }, {
+            value: 'Low density',
+            symbol: forestSym
+        }, {
+            value: 'Mixed mainly broadleaved',
+            symbol: forestSym
+        }, {
+            value: 'Mixed mainly conifer',
+            symbol: forestSym
+        }, {
+            value: 'Shrub',
+            symbol: forestSym
+        }, {
+            value: 'Young trees',
+            symbol: forestSym
+        }]
     };
 
     // create and add forest layer to view
@@ -273,22 +267,14 @@ require([
                 if (value === 11) {
                     return 'Short Rotation Eucalypt';
                 }
-            }
-            // thumbCreatedFunction: function(value, thumbElement) {
-            //     thumbElement.addEventListener('focus', function() {
-            //         if (value === 1) {
-            //             return 'this is a test hover';
-            //         };
-            //         console.log(value);
-            //     });
-            //}
+            } // look into thumbCreatedFunction for tooltip here
     });
 
-    // Load responsive (for rest see line ~480)
+    // Load responsive (for rest see line ~470)
     const isResponsiveSize = view.widthBreakpoint === 'xsmall';
 
     // creat yearSlider  
-    // if xsmall screen then make tickConfigs.labelsVisible = false and visibleElements.labels and rangeLabels = true
+    // if xsmall screen then make visibleElements.labels, rangeLabels = true, tickConfigs.labelsVisible = false 
     const yearSlider = new Slider({
         container: 'yearSlider',
         min: 5,
@@ -308,6 +294,7 @@ require([
         }]
     });
 
+    // option for adding changing charts in non-existent rightDiv -- for future iterations
     // set vars for the fma charts in rightDiv
     /* let fmaChart = document.getElementById('rightDivImg');
      const fma1Chart = 'img/fma1Chart.png';
@@ -432,7 +419,7 @@ require([
         playButton.classList.remove('toggled');
     };
 
-    // modal 'About' box in leftDiv
+    // modal 'About' box in wholeLeftDiv
     const modalBtn = document.getElementById('modal-btn');
     const modal = document.querySelector('.modal');
     const closeBtn = document.querySelector('.close-btn');
@@ -464,13 +451,6 @@ require([
     //     }
     // };
 
-    // create and add basemaptoggle
-    // const basemapToggle = new BasemapToggle({
-    //     view: view,
-    //     nextBasemap: 'satellite'
-    // });
-    // view.ui.add(basemapToggle, 'bottom-right');
-
     // moves the zoom widget to other corner
     view.ui.move('zoom', 'bottom-right');
 
@@ -493,7 +473,6 @@ require([
     const leftDivExpand = new Expand({
         view: view,
         content: leftDiv,
-        //   expandIconClass: 'esri-icon-description',
         group: 'top-left'
     });
 
@@ -503,16 +482,15 @@ require([
         expandIconClass: 'esri-icon-layers',
         group: 'top-left'
     });
-    //view.ui.add([leftDivExpand, leftDiv2Expand], 'top-left');;
 
     const leftDiv3Expand = new Expand({
         view: view,
-        content: document.getElementById('modal-text'),
+        content: document.getElementById('modal-elements'),
         expandIconClass: 'esri-icon-description',
         group: 'top-left'
     });
 
-    // breakpoints
+    // Breakpoints for mobile
     view.watch('widthBreakpoint', 'heightBreakpoint', function(breakpoint) {
         switch (breakpoint) {
             case 'xsmall':
@@ -545,10 +523,4 @@ require([
     const bottomDiv = document.getElementById('bottomDiv');
 
     updateView(isResponsiveSize);
-
-
-
-    // when you figure out everything with the slider, do this!
-    // https://developers.arcgis.com/javascript/latest/sample-code/layers-imagery-clientside/index.html
-
 });
