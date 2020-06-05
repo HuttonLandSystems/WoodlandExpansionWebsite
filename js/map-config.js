@@ -15,7 +15,7 @@ require([
     'esri/layers/support/MosaicRule',
     'esri/layers/support/DimensionalDefinition',
     'esri/layers/support/LabelClass',
-    "esri/core/watchUtils"
+    'esri/core/watchUtils'
 ], function(Map,
     Basemap,
     Point,
@@ -228,7 +228,7 @@ require([
     });
 
     // changes label placement on zoom 
-    watchUtils.watch(view, "zoom", function(zoom) {
+    watchUtils.watch(view, 'zoom', function(zoom) {
         if (zoom > 8) {
             conservancyLabelLayer.labelingInfo = [];
             conservancyLayer.labelingInfo = [conservancyLabel];
