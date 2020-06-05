@@ -14,7 +14,8 @@ require([
     'esri/layers/support/RasterFunction',
     'esri/layers/support/MosaicRule',
     'esri/layers/support/DimensionalDefinition',
-    'esri/layers/support/LabelClass'
+    'esri/layers/support/LabelClass',
+    "esri/core/watchUtils"
 ], function(Map,
     Basemap,
     Point,
@@ -28,7 +29,8 @@ require([
     RasterFunction,
     MosaicRule,
     DimensionalDefinition,
-    LabelClass) {
+    LabelClass,
+    watchUtils) {
 
     // new basemap definition 
     const basemap = new Basemap({
@@ -184,27 +186,37 @@ require([
 
     // create labels for conservancy layer
     const conservancyLabel = new LabelClass({
-        labelExpressionInfo: { expression: '$feature.featname', },
+        labelExpressionInfo: {
+            expression: '$feature.featname'
+        },
         symbol: {
             type: 'text',
             color: 'black',
             font: { size: 11 },
             haloColor: 'white',
-            haloSize: 1.2,
+            haloSize: 1.2
         },
-        minScale: 0,
-        maxScale: 0
+        maxScale: 0,
+        minScale: 0
+
     });
 
     // create and add conservancy boundaries to view
     const conservancyLayer = new FeatureLayer({
-        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/ConservancyBoundaries/MapServer',
+        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/ConservancyBoundaries/MapServer/0',
         renderer: conservancyRenderer,
-        labelingInfo: [conservancyLabel],
+        labelingInfo: [],
         minScale: 0,
         maxScale: 0
     });
     map.add(conservancyLayer, 2);
+
+    const conservancyLabelLayer = new FeatureLayer({
+        url: 'https://druid.hutton.ac.uk/arcgis/rest/services/ConservancyBoundaries/MapServer/1',
+        //  renderer: conservancyLabelRenderer,
+        labelingInfo: [conservancyLabel]
+    });
+    map.add(conservancyLabelLayer, 3);
 
     // add alert when zoom constraint is reached -- but only once!
     let executed = false;
@@ -212,6 +224,18 @@ require([
         if (!executed && view.zoom == 10) {
             alert('Nationwide Data: Scale is constrained to 1:500,000');
             executed = true;
+        }
+    });
+
+    // changes label placement on zoom 
+    watchUtils.watch(view, "zoom", function(zoom) {
+        if (zoom > 8) {
+            conservancyLabelLayer.labelingInfo = [];
+            conservancyLayer.labelingInfo = [conservancyLabel];
+
+        } else {
+            conservancyLabelLayer.labelingInfo = [conservancyLabel];
+            conservancyLayer.labelingInfo = [];
         }
     });
 
