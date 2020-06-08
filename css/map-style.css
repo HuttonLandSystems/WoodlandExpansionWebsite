@@ -362,6 +362,7 @@ input:checked+.peatToggle:before {
     #sliderDiv {
         padding: 0;
         bottom: 0;
+        max-height: 400px;
     }
 }
 

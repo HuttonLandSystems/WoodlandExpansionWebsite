@@ -213,7 +213,6 @@ require([
 
     const conservancyLabelLayer = new FeatureLayer({
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/ConservancyBoundaries/MapServer/1',
-        //  renderer: conservancyLabelRenderer,
         labelingInfo: [conservancyLabel]
     });
     map.add(conservancyLabelLayer, 3);
@@ -231,12 +230,11 @@ require([
     watchUtils.watch(view, 'zoom', function(zoom) {
         if (zoom > 8) {
             conservancyLabelLayer.labelingInfo = [];
-            conservancyLayer.labelingInfo = [conservancyLabel];
-
-        } else {
+        } else
+        if (zoom <= 8) {
             conservancyLabelLayer.labelingInfo = [conservancyLabel];
-            conservancyLayer.labelingInfo = [];
         }
+
     });
 
     // create and add fma slider to view
@@ -537,6 +535,8 @@ require([
             view.ui.add([leftDiv3Expand, leftDivExpand, leftDiv2Expand], 'top-left');
             modal.style.display = 'none';
             view.ui.add(scaleBar, 'bottom-left');
+            conservancyLayer.labelingInfo = [conservancyLabel];
+            conservancyLabelLayer.labelingInfo = [];
         } else {
             leftDivExpand.destroy();
             leftDiv2Expand.destroy();
