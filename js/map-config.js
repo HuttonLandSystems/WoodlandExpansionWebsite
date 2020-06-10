@@ -9,13 +9,17 @@ require([
     'esri/widgets/ScaleBar',
     'esri/widgets/Slider',
     'esri/widgets/Home',
+    'esri/widgets/Legend',
     'esri/layers/FeatureLayer',
     'esri/layers/ImageryLayer',
     'esri/layers/support/RasterFunction',
     'esri/layers/support/MosaicRule',
     'esri/layers/support/DimensionalDefinition',
     'esri/layers/support/LabelClass',
-    'esri/core/watchUtils'
+    'esri/core/watchUtils',
+    'esri/renderers/RasterStretchRenderer',
+    'esri/tasks/support/AlgorithmicColorRamp',
+    'esri/tasks/support/MultipartColorRamp'
 ], function(Map,
     Basemap,
     Point,
@@ -24,13 +28,17 @@ require([
     ScaleBar,
     Slider,
     Home,
+    Legend,
     FeatureLayer,
     ImageryLayer,
     RasterFunction,
     MosaicRule,
     DimensionalDefinition,
     LabelClass,
-    watchUtils) {
+    watchUtils,
+    RasterStretchRenderer,
+    AlgorithmicColorRamp,
+    MultipartColorRamp) {
 
     // new basemap definition 
     const basemap = new Basemap({
@@ -90,6 +98,74 @@ require([
         outputPixelType: 'U8'
     });
 
+    const colorRamp1 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [103, 0, 31],
+        toColor: [178, 24, 43]
+    });
+    const colorRamp2 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [178, 24, 43],
+        toColor: [214, 96, 77]
+    });
+    const colorRamp3 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [214, 96, 77],
+        toColor: [244, 165, 130]
+    });
+    const colorRamp4 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [244, 165, 130],
+        toColor: [243, 219, 199]
+    });
+    const colorRamp5 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [243, 219, 199],
+        toColor: [209, 229, 240]
+    });
+    const colorRamp6 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [209, 229, 240],
+        toColor: [146, 197, 222]
+    });
+    const colorRamp7 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [146, 197, 222],
+        toColor: [67, 147, 195]
+    });
+    const colorRamp8 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [67, 147, 195],
+        toColor: [33, 102, 172]
+    });
+    const colorRamp9 = new AlgorithmicColorRamp({
+        algorithm: 'lab-lch',
+        fromColor: [33, 102, 172],
+        toColor: [5, 48, 97]
+    });
+
+
+    const combineColorRamp = new MultipartColorRamp({
+        colorRamps: [colorRamp1, colorRamp2, colorRamp3, colorRamp4, colorRamp5, colorRamp6,
+            colorRamp7, colorRamp8, colorRamp9
+        ]
+    });
+
+    const layerRenderer = new RasterStretchRenderer({
+        colorRamp: combineColorRamp,
+        // outputMax: 3,
+        // outputMin: -3,
+        stretchType: 'min-max',
+        statistics: {
+            min: -5,
+            max: 5,
+            avg: 0,
+            stdev: 2.5
+        }
+        // useGamma: true,
+        // computeGamma: true
+    });
+
     // set initial FMA value
     const fmaDefinition = new DimensionalDefinition({
         variableName: 'Peat',
@@ -114,7 +190,12 @@ require([
     // create and add imagery layer to view
     const layer = new ImageryLayer({
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
-        renderingRule: colorRF,
+        renderer: layerRenderer,
+        popupTemplate: {
+            title: 'this is a test popup template',
+            content: '{Raster.ServicePixelValue}'
+        },
+        //renderingRule: colorRF,
         mosaicRule: mosaicRule
     });
     map.add(layer, 0);
@@ -488,6 +569,25 @@ require([
         view: view
     });
     view.ui.add(home, 'bottom-right');
+
+    // create and add legend to view 
+    var legend = new Legend({
+        view: view,
+        layerInfos: [{
+                layer: layer,
+                title: 'tchayr'
+            },
+            {
+                layer: forestLayer,
+                title: 'Existing Forestry'
+            },
+            {
+                layer: conservancyLayer,
+                title: 'Forest Conservancy Areas'
+            }
+        ]
+    });
+    view.ui.add(legend, 'top-right');
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
