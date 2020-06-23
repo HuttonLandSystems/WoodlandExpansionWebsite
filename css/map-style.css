@@ -31,8 +31,11 @@ body {
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
+    top: 15;
+    left: 15;
     z-index: 2;
     max-height: 80%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 #leftDiv3 {
@@ -40,10 +43,8 @@ body {
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
-    top: 15;
-    left: 15;
     width: 290px;
-    padding: 10 20 0 20;
+    padding: 10 20 20 20;
     background-color: white;
 }
 
@@ -69,16 +70,6 @@ body {
     width: 290px;
     padding: 0 20 15 20;
     background-color: white;
-}
-
-@media (min-width: 600px) {
-    #leftDiv2 {
-        top: 15;
-        left: 15;
-    }
-    #leftDiv {
-        left: 15;
-    }
 }
 
 #leftDiv3 #title {
@@ -410,3 +401,13 @@ input:checked+.peatToggle:before {
         z-index: 0;
     }
 }
+
+
+/* .zoomTo {
+    display: none;
+} */
+
+
+/* #esri-popup__footer #esri-popup__footer--has-actions {
+    display: none !important;
+} */

@@ -153,17 +153,10 @@ require([
 
     const layerRenderer = new RasterStretchRenderer({
         colorRamp: combineColorRamp,
-        // outputMax: 3,
-        // outputMin: -3,
         stretchType: 'min-max',
-        statistics: {
-            min: -5,
-            max: 5,
-            avg: 0,
-            stdev: 2.5
-        }
-        // useGamma: true,
-        // computeGamma: true
+        statistics: [
+                [-5, 5, 0, 5]
+            ] // min, max, avg, stddev
     });
 
     // set initial FMA value
@@ -192,63 +185,84 @@ require([
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
         renderer: layerRenderer,
         popupTemplate: {
-            title: 'this is a test popup template',
-            content: '{Raster.ServicePixelValue}'
+            title: '{Raster.ServicePixelValue} tonnes of carbon stored per hectare per year'
+                // content: [] //'{Raster.ServicePixelValue}'
         },
         //renderingRule: colorRF,
         mosaicRule: mosaicRule
     });
     map.add(layer, 0);
-
-    // symbol for forestLayer 
-    const forestSym = {
-        type: 'simple-fill', //autocasts as new SimpleFillSymbol()
-        color: [120, 162, 46, 1],
-        style: 'solid',
-        outline: {
-            width: '0px'
+    view.popup = {
+        dockEnabled: true,
+        dockOptions: {
+            buttonEnabled: false
         }
     };
+    view.popup.viewModel.actions.getItemAt(0).visible = false; // remove zoom-to action in popup template
+
+    // // symbol for forestLayer 
+    // const forestSym = {
+    //     type: 'simple-fill', //autocasts as new SimpleFillSymbol()
+    //     color: [120, 162, 46, 1],
+    //     style: 'solid',
+    //     outline: {
+    //         width: '0px'
+    //     }
+    // };
 
     // create unique value renderers for 'existing forestry' of forestLayer
+    // const forestRenderer = {
+    //     type: 'unique-value', //autocasts as new UniqueValueRenderer() -- but still throws error
+    //     defaultSymbol: [],
+    //     field: 'IFT_IOA',
+    //     uniqueValueInfos: [{ // only show the existing forestry categories
+    //         value: 'Broadleaved',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Conifer',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Coppice',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Coppice with standards',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Low density',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Mixed mainly broadleaved',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Mixed mainly conifer',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Shrub',
+    //         symbol: forestSym
+    //     }, {
+    //         value: 'Young trees',
+    //         symbol: forestSym
+    //     }]
+    // };
+
+    // symbol for forestLayer 
     const forestRenderer = {
-        type: 'unique-value', //autocasts as new UniqueValueRenderer() -- but still throws error
-        defaultSymbol: [],
-        field: 'IFT_IOA',
-        uniqueValueInfos: [{ // only show the existing forestry categories
-            value: 'Broadleaved',
-            symbol: forestSym
-        }, {
-            value: 'Conifer',
-            symbol: forestSym
-        }, {
-            value: 'Coppice',
-            symbol: forestSym
-        }, {
-            value: 'Coppice with standards',
-            symbol: forestSym
-        }, {
-            value: 'Low density',
-            symbol: forestSym
-        }, {
-            value: 'Mixed mainly broadleaved',
-            symbol: forestSym
-        }, {
-            value: 'Mixed mainly conifer',
-            symbol: forestSym
-        }, {
-            value: 'Shrub',
-            symbol: forestSym
-        }, {
-            value: 'Young trees',
-            symbol: forestSym
-        }]
+        type: 'simple', // autocasts as new SimpleRenderer()
+        symbol: {
+            type: 'simple-fill', //autocasts as new SimpleFillSymbol()
+            color: [120, 162, 46, 1],
+            style: 'solid',
+            outline: {
+                width: '0px'
+            }
+        }
     };
 
     // create and add forest layer to view
     const forestLayer = new FeatureLayer({
         url: 'https://services2.arcgis.com/mHXjwgl3OARRqqD4/ArcGIS/rest/services/National_Forest_Inventory_Woodland_Scotland_2018/FeatureServer/0',
-        renderer: forestRenderer
+        renderer: forestRenderer,
+        definitionExpression: "IFT_IOA = 'Broadleaved' OR IFT_IOA = 'Conifer' OR IFT_IOA = 'Coppice' OR IFT_IOA = 'Coppice with standards' OR IFT_IOA = 'Low density' OR IFT_IOA = 'Mixed mainly broadleaved' OR IFT_IOA = 'Mixed mainly conifer' OR IFT_IOA = 'Shrub' OR IFT_IOA = 'Young trees'",
     });
     map.add(forestLayer, 1);
 
@@ -575,7 +589,7 @@ require([
         view: view,
         layerInfos: [{
                 layer: layer,
-                title: 'tchayr'
+                title: 'Tonnes of carbon stored per hectare per year'
             },
             {
                 layer: forestLayer,
@@ -587,11 +601,11 @@ require([
             }
         ]
     });
-    view.ui.add(legend, 'top-right');
+
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
-    const leftDiv2 = document.getElementById('leftDiv2');
+    // const leftDiv2 = document.getElementById('leftDiv2');
     const leftDivExpand = new Expand({
         view: view,
         content: leftDiv,
@@ -600,7 +614,7 @@ require([
 
     const leftDiv2Expand = new Expand({
         view: view,
-        content: leftDiv2,
+        content: legend,
         expandIconClass: 'esri-icon-layers',
         group: 'top-left'
     });
@@ -642,6 +656,7 @@ require([
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
             modal.style.display = 'flex'; // auto opens modal 'About' box
+            view.ui.add(legend, 'top-right');
         };
     };
     const bottomDiv = document.getElementById('bottomDiv');
