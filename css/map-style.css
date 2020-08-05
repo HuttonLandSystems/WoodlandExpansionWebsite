@@ -346,14 +346,26 @@ input:checked+.peatToggle:before {
 }
 
 @media (max-width: 600px) {
+    #bottomDiv {
+        max-height: 100%;
+        padding-bottom: 10 0 20 0;
+    }
+    #playButton {
+        margin: 0 !important;
+        padding: 30 0;
+    }
     #title.slider-title {
         margin: 5 0 0 0;
         font-size: 12px;
     }
     #sliderDiv {
+        display: inline-block;
         padding: 0;
         bottom: 0;
         max-height: 400px;
+    }
+    #mobileOnly {
+        padding: 0 0 10 10;
     }
 }
 

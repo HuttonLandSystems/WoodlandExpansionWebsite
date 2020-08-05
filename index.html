@@ -20,7 +20,7 @@
     <meta http-equiv="ScreenOrientation" content="autoRotate:disabled">
 
     <!-- Dublin Core meta tags -->
-    <meta name='DC.Date.modified' content='8 June 2020'>
+    <meta name='DC.Date.modified' content='5 August 2020'>
     <meta name='DC.language' content='en'>
     <meta name='DC.contributor' content='The James Hutton Institute'>
     <meta name='DC.format' content='text/html'>
@@ -41,11 +41,11 @@
     <meta property='twitter:image' content='https://github.com/giannalogy/WoodlandExpansionWebsite/blob/master/img/screenshot.png?raw=true'>
 
     <!-- Favicon -->
-    <link rel='icon' href='favicon.ico' type='image/x-icon' />
-    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
+    <!-- <link rel='icon' href='favicon.ico' type='image/x-icon' />
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon' /> -->
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src='https://www.googletagmanager.com/gtag/js?id=UA-19543820-51'></script>
+    <!-- <script async src='https://www.googletagmanager.com/gtag/js?id=UA-19543820-51'></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -55,7 +55,7 @@
         gtag('js', new Date());
 
         gtag('config', 'UA-19543820-51');
-    </script>
+    </script> -->
 
     <title>Mapping Net Change in Carbon from Afforestation in Scotland</title>
 
@@ -64,7 +64,7 @@
     <link rel='stylesheet' href='css/map-style.css'>
 
     <!-- JS -->
-    <script src='https://js.arcgis.com/4.15/'></script>
+    <script src='https://js.arcgis.com/4.16/'></script>
     <script src='js/map-config.js'></script>
 
     <!-- Modal window -->
@@ -145,6 +145,12 @@
                     <label id='peatLabel'><input id='peatInput' type='checkbox' checked='yes' /> <span class='peatToggle'></span> </label>
                 </div>
             </div>
+        </div>
+
+        <div id='mobileOnly' class='esri-widget'>
+            <p>Data display options are shown below and can be changed in the menus in the top left corner</p>
+            <b><div id='fmaDisplay'></div>
+            <div id='yearDisplay'></div></b>
         </div>
 
         <div id='bottomDiv'>

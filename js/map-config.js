@@ -439,6 +439,9 @@ require([
         // updateChartImg();
     });
 
+    document.getElementById('fmaDisplay').innerHTML = 'FMA: Native Conifer';
+    document.getElementById('yearDisplay').innerHTML = '5 years from present';
+
     function updateDimDef(value) {
         const mosaicRuleClone = layer.mosaicRule.clone(); // makes clone of layer's mosaicRule
         const fmaVariable = mosaicRuleClone.multidimensionalDefinition[0];
@@ -447,6 +450,40 @@ require([
         yearVariable.values = yearSlider.get('values');
         mosaicRuleClone.multidimensionalDefinition = [fmaVariable, yearVariable];
         layer.mosaicRule = mosaicRuleClone;
+        if (value === 1) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Native Conifer';
+        }
+        if (value === 2) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Native Broadleaf';
+        }
+        if (value === 3) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Multi-Purpose Broadleaf';
+        }
+        if (value === 4) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Multi-Purpose Conifer';
+        }
+        if (value === 5) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Multi-Purpose Sitka Spruce';
+        }
+        if (value === 6) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Production Conifer';
+        }
+        if (value === 7) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Production Sitka Spruce';
+        }
+        if (value === 8) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Production Douglas Fir';
+        }
+        if (value === 9) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Short Rotation Aspen';
+        }
+        if (value === 10) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Short Rotation Rauli';
+        }
+        if (value === 11) {
+            document.getElementById('fmaDisplay').innerHTML = 'FMA: Short Rotation Eucalypt';
+        }
+
     };
 
     // when the user changes the yearSlider's value, change the year to reflect data
@@ -463,6 +500,7 @@ require([
         yearVariable.values = [value];
         mosaicRuleClone.multidimensionalDefinition = [fmaVariable, yearVariable];
         layer.mosaicRule = mosaicRuleClone;
+        document.getElementById('yearDisplay').innerHTML = [value] + ' years from present';
     };
 
     // when the user changes the peatInput checkbox status, turn Peat on/off
@@ -626,6 +664,13 @@ require([
         group: 'top-left'
     });
 
+    const bottomDivExpand = new Expand({
+        view: view,
+        content: document.getElementById('bottomDiv'),
+        expandIconClass: 'esri-icon-time-clock',
+        group: 'top-left'
+    });
+
     // Breakpoints for mobile
     view.watch('widthBreakpoint', 'heightBreakpoint', function(breakpoint) {
         switch (breakpoint) {
@@ -646,7 +691,7 @@ require([
 
     function updateView(isMobile) {
         if (isMobile) {
-            view.ui.add([leftDiv3Expand, leftDivExpand, leftDiv2Expand], 'top-left');
+            view.ui.add([leftDiv3Expand, leftDivExpand, leftDiv2Expand, bottomDivExpand], 'top-left');
             modal.style.display = 'none';
             view.ui.add(scaleBar, 'bottom-left');
             conservancyLayer.labelingInfo = [conservancyLabel];
@@ -655,11 +700,11 @@ require([
             leftDivExpand.destroy();
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
+            bottomDivExpand.destroy();
             modal.style.display = 'flex'; // auto opens modal 'About' box
             view.ui.add(legend, 'top-right');
         };
     };
-    const bottomDiv = document.getElementById('bottomDiv');
 
     updateView(isResponsiveSize);
 });
