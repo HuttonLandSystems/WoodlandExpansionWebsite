@@ -155,7 +155,7 @@ require([
         colorRamp: combineColorRamp,
         stretchType: 'min-max',
         statistics: [
-                [-5, 5, 0, 5]
+                [-3, 3, 0, 3]
             ] // min, max, avg, stddev
     });
 
@@ -184,12 +184,13 @@ require([
     const layer = new ImageryLayer({
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
         renderer: layerRenderer,
+        mosaicRule: mosaicRule,
+        opacity: 0.9,
         popupTemplate: {
             title: '{Raster.ServicePixelValue} tonnes of carbon stored per hectare per year'
                 // content: [] //'{Raster.ServicePixelValue}'
         },
         //renderingRule: colorRF,
-        mosaicRule: mosaicRule
     });
     map.add(layer, 0);
     view.popup = {
@@ -450,6 +451,7 @@ require([
         yearVariable.values = yearSlider.get('values');
         mosaicRuleClone.multidimensionalDefinition = [fmaVariable, yearVariable];
         layer.mosaicRule = mosaicRuleClone;
+        // for mobileOnly Div
         if (value === 1) {
             document.getElementById('fmaDisplay').innerHTML = 'FMA: Native Conifer';
         }
@@ -647,13 +649,14 @@ require([
     const leftDivExpand = new Expand({
         view: view,
         content: leftDiv,
+        expandIconClass: 'esri-icon-collection',
         group: 'top-left'
     });
 
     const leftDiv2Expand = new Expand({
         view: view,
         content: legend,
-        expandIconClass: 'esri-icon-layers',
+        expandIconClass: 'esri-icon-layer-list',
         group: 'top-left'
     });
 
@@ -691,7 +694,7 @@ require([
 
     function updateView(isMobile) {
         if (isMobile) {
-            view.ui.add([leftDiv3Expand, leftDivExpand, leftDiv2Expand, bottomDivExpand], 'top-left');
+            view.ui.add([leftDivExpand, bottomDivExpand, leftDiv2Expand, leftDiv3Expand], 'top-left');
             modal.style.display = 'none';
             view.ui.add(scaleBar, 'bottom-left');
             conservancyLayer.labelingInfo = [conservancyLabel];
