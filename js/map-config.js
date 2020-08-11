@@ -75,29 +75,6 @@ require([
         }
     });
 
-    // Raster function to apply new colormap to reclassified pixels
-    const colorRF = new RasterFunction({
-        functionName: 'Colormap',
-        functionArguments: {
-            colormap: [
-                [1, 103, 0, 31],
-                [2, 178, 24, 43],
-                [3, 214, 96, 77],
-                [4, 244, 165, 130],
-                [5, 243, 219, 199],
-                [6, 209, 229, 240],
-                [7, 146, 197, 222],
-                [8, 67, 147, 195],
-                [9, 33, 102, 172],
-                [10, 5, 48, 97]
-            ],
-            // Setting the previous raster function to the Raster
-            // property of a new raster function allows the function chain
-            raster: remapRF
-        },
-        outputPixelType: 'U8'
-    });
-
     const colorRamp1 = new AlgorithmicColorRamp({
         algorithm: 'lab-lch',
         fromColor: [103, 0, 31],
@@ -144,19 +121,39 @@ require([
         toColor: [5, 48, 97]
     });
 
-
     const combineColorRamp = new MultipartColorRamp({
         colorRamps: [colorRamp1, colorRamp2, colorRamp3, colorRamp4, colorRamp5, colorRamp6,
             colorRamp7, colorRamp8, colorRamp9
         ]
     });
 
-    const layerRenderer = new RasterStretchRenderer({
+    const stretchRenderer = new RasterStretchRenderer({
         colorRamp: combineColorRamp,
         stretchType: 'min-max',
         statistics: [
                 [-3, 3, 0, 3]
             ] // min, max, avg, stddev
+    });
+
+    // reclass rendering
+    const remapReclassRF = new RasterFunction({
+        functionName: 'Remap',
+        functionArguments: {
+            inputRanges: [-10, 0, 0, 1.05, 1.05, 10],
+            outputValues: [1, 2, 3],
+            raster: '$$'
+        }
+    });
+
+    const reclassColorRF = new RasterFunction({
+        functionName: 'Colormap',
+        functionArguments: {
+            colorMap: [
+                [1, 103, 0, 31],
+                [2, 243, 219, 199],
+                [3, 5, 48, 97]
+            ]
+        }
     });
 
     // set initial FMA value
@@ -183,14 +180,14 @@ require([
     // create and add imagery layer to view
     const layer = new ImageryLayer({
         url: 'https://druid.hutton.ac.uk/arcgis/rest/services/wdlexp_netCDFs_2dims_fix/ImageServer',
-        renderer: layerRenderer,
+        renderer: stretchRenderer,
         mosaicRule: mosaicRule,
         opacity: 0.9,
         popupTemplate: {
             title: '{Raster.ServicePixelValue} tonnes of carbon stored per hectare per year'
                 // content: [] //'{Raster.ServicePixelValue}'
         },
-        //renderingRule: colorRF,
+
     });
     map.add(layer, 0);
     view.popup = {
@@ -200,51 +197,6 @@ require([
         }
     };
     view.popup.viewModel.actions.getItemAt(0).visible = false; // remove zoom-to action in popup template
-
-    // // symbol for forestLayer 
-    // const forestSym = {
-    //     type: 'simple-fill', //autocasts as new SimpleFillSymbol()
-    //     color: [120, 162, 46, 1],
-    //     style: 'solid',
-    //     outline: {
-    //         width: '0px'
-    //     }
-    // };
-
-    // create unique value renderers for 'existing forestry' of forestLayer
-    // const forestRenderer = {
-    //     type: 'unique-value', //autocasts as new UniqueValueRenderer() -- but still throws error
-    //     defaultSymbol: [],
-    //     field: 'IFT_IOA',
-    //     uniqueValueInfos: [{ // only show the existing forestry categories
-    //         value: 'Broadleaved',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Conifer',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Coppice',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Coppice with standards',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Low density',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Mixed mainly broadleaved',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Mixed mainly conifer',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Shrub',
-    //         symbol: forestSym
-    //     }, {
-    //         value: 'Young trees',
-    //         symbol: forestSym
-    //     }]
-    // };
 
     // symbol for forestLayer 
     const forestRenderer = {
@@ -294,7 +246,6 @@ require([
         },
         maxScale: 0,
         minScale: 0
-
     });
 
     // create and add conservancy boundaries to view
@@ -527,6 +478,24 @@ require([
             layer.mosaicRule = mosaicRuleClone;
         }
     });
+
+    // when the user change the symbologyInput checkbox status, then change symbology 
+    view.when(function() {
+        document
+            .getElementById('symbologyInput')
+            .addEventListener('change', updateSymbology);
+    });
+
+    function updateSymbology(event) {
+        // Turn stretch symbology on and off 
+        if (this.checked) {
+            layer.renderer = stretchRenderer;
+            layer.renderingRule = null;
+        } else {
+            layer.renderer = null;
+            layer.renderingRule = reclassColorRF;
+        }
+    }
 
     // set vars for play button 
     const playButton = document.getElementById('playButton');

@@ -44,7 +44,7 @@ body {
     flex: 0 0 auto;
     flex-direction: column;
     width: 290px;
-    padding: 10 20 20 20;
+    padding: 10 20 0 20;
     background-color: white;
 }
 
@@ -229,20 +229,23 @@ body {
     width: 100%;
 }
 
-#peatLabel {
+#peatLabel,
+#symbologyLabel {
     position: relative;
     display: inline-block;
     width: 30px;
     height: 17px;
 }
 
-#peatInput {
+#peatInput,
+#symbologyInput {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.peatToggle {
+.peatToggle,
+.symbologyToggle {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -255,7 +258,8 @@ body {
     border-radius: 17px;
 }
 
-.peatToggle:before {
+.peatToggle:before,
+.symbologyToggle:before {
     position: absolute;
     content: '';
     height: 13px;
@@ -268,15 +272,18 @@ body {
     border-radius: 50%;
 }
 
-input:checked+.peatToggle {
+input:checked+.peatToggle,
+input:checked+.symbologyToggle {
     background-color: #0079c1;
 }
 
-input:focus+.peatToggle {
+input:focus+.peatToggle,
+input:focus+.symbologyToggle {
     box-shadow: 0 0 1px #0079c1;
 }
 
-input:checked+.peatToggle:before {
+input:checked+.peatToggle:before,
+input:checked+.symbologyToggle:before {
     -webkit-transform: translateX(13px);
     -ms-transform: translateX(13px);
     transform: translateX(13px);
@@ -429,4 +436,8 @@ input:checked+.peatToggle:before {
 .esri-ui-corner .esri-component>.esri-widget--panel,
 .esri-ui-corner .esri-component.esri-widget--panel {
     width: 290px;
+}
+
+#symbologyCheckbox {
+    display: none;
 }
