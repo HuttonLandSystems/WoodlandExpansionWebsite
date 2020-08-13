@@ -153,7 +153,8 @@ require([
                 [2, 243, 219, 199],
                 [3, 5, 48, 97]
             ]
-        }
+        },
+        raster: remapReclassRF
     });
 
     // set initial FMA value
@@ -275,11 +276,14 @@ require([
 
     // changes label placement on zoom 
     watchUtils.watch(view, 'zoom', function(zoom) {
-        if (zoom > 8) {
+        if (!isResponsiveSize) {
+            if (zoom > 8) {
+                conservancyLabelLayer.labelingInfo = [];
+            } else {
+                conservancyLabelLayer.labelingInfo = [conservancyLabel];
+            }
+        } else {
             conservancyLabelLayer.labelingInfo = [];
-        } else
-        if (zoom <= 8) {
-            conservancyLabelLayer.labelingInfo = [conservancyLabel];
         }
 
     });
@@ -491,9 +495,11 @@ require([
         if (this.checked) {
             layer.renderer = stretchRenderer;
             layer.renderingRule = null;
+            console.log(stretchRenderer);
         } else {
             layer.renderer = null;
             layer.renderingRule = reclassColorRF;
+            console.log(reclassColorRF);
         }
     }
 

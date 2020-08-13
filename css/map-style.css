@@ -99,22 +99,16 @@ body {
 }
 
 @media (max-width: 600px) {
-    #leftDiv3 #modal-btn {
+    #wholeLeftDiv {
         display: none;
     }
-    #leftDiv3 #title {
+    #mobileOnlyTitle {
         position: fixed;
-        top: 0;
-        left: 0;
-        margin: 0;
-        padding: 5 0;
-        background-color: white;
-    }
-    #wholeLeftDiv {
+        padding: 0 5;
         z-index: 0;
     }
     #mapDiv {
-        padding-top: 50px;
+        padding-top: 70px;
     }
 }
 
@@ -229,6 +223,10 @@ body {
     width: 100%;
 }
 
+#symbologyCheckbox {
+    display: none;
+}
+
 #peatLabel,
 #symbologyLabel {
     position: relative;
@@ -325,7 +323,7 @@ input:checked+.symbologyToggle:before {
     position: relative;
     display: flex;
     flex-direction: column;
-    flex: 0 0 auto;
+    /* flex: 0 1 auto; */
     max-height: 13%;
     left: 0;
     right: 0;
@@ -356,17 +354,27 @@ input:checked+.symbologyToggle:before {
     display: none;
 }
 
+@media (min-width: 600px) {
+    #mobileOnlyTitle {
+        display: none;
+    }
+}
+
 @media (max-width: 600px) {
     #bottomDiv {
-        max-height: 100%;
-        padding-bottom: 10 0 20 0;
+        /* max-height: 30%; */
+        position: fixed;
+        z-index: -1;
+        padding: 10 0 200 0;
     }
     #playButton {
         margin: 0 !important;
         padding: 30 0;
+        flex: 0 0 auto;
     }
     #title.slider-title {
         margin: 5 0 0 0;
+        padding: 0 0 0 5;
         font-size: 12px;
     }
     #sliderDiv {
@@ -374,10 +382,12 @@ input:checked+.symbologyToggle:before {
         padding: 0;
         bottom: 0;
         max-height: 400px;
+        flex: 0 0 auto
     }
     #mobileOnly {
         display: block;
         padding: 0 0 10 10;
+        z-index: -1;
     }
 }
 
@@ -436,8 +446,4 @@ input:checked+.symbologyToggle:before {
 .esri-ui-corner .esri-component>.esri-widget--panel,
 .esri-ui-corner .esri-component.esri-widget--panel {
     width: 290px;
-}
-
-#symbologyCheckbox {
-    display: none;
 }
