@@ -185,7 +185,14 @@ require([
         mosaicRule: mosaicRule,
         opacity: 0.9,
         popupTemplate: {
-            title: '{Raster.ServicePixelValue} tonnes of carbon stored per hectare per year'
+            title: '{Raster.ItemPixelValue} tonnes of carbon stored per hectare per year',
+            fieldInfos: [{
+                    fieldName: 'Raster.ItemPixelValue',
+                    format: {
+                        places: 2,
+                        digitSeparator: true
+                    }
+                }]
                 // content: [] //'{Raster.ServicePixelValue}'
         },
 

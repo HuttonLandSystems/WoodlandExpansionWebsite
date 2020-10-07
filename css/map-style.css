@@ -2,32 +2,30 @@ html,
 body {
     padding: 0;
     margin: 0;
-    height: 100%;
-    width: 100%;
-}
-
-#applicationDiv {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 #mapDiv {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    flex: 1 1 auto;
-    z-index: 1;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 150px;
+}
+
+@media (max-width: 600px) {
+    #mapDiv {
+        bottom: 120px;
+        padding-top: 70px;
+    }
 }
 
 
 /******** Floating div with leftDiv [peatCheckbox, rangeSlider] and leftDiv2 [legend] and leftDiv3 [About Modal]********/
 
 #wholeLeftDiv {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
@@ -103,12 +101,16 @@ body {
         display: none;
     }
     #mobileOnlyTitle {
-        position: fixed;
+        position: absolute;
         padding: 0 5;
-        z-index: 0;
+        z-index: -1;
+        text-align: center;
     }
-    #mapDiv {
-        padding-top: 70px;
+}
+
+@media (min-width: 600px) {
+    #mobileOnlyTitle {
+        display: none;
     }
 }
 
@@ -308,96 +310,59 @@ input:checked+.symbologyToggle:before {
     padding-left: 80px;
 }
 
-#forestLegendImg {
-    display: block;
-    width: 25px;
-    height: 25px;
-    background-color: rgba(120, 162, 46, 1);
-    padding-left: 4px;
-}
 
-
-/******** bottom Slider with years and play button ********/
+/******** bottomDiv********/
 
 #bottomDiv {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    /* flex: 0 1 auto; */
-    max-height: 13%;
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 0;
-    padding: 0 5 10 5;
-    background-color: white;
-    z-index: 0;
-}
-
-#title.slider-title {
-    margin-top: 20px;
-    margin-bottom: 0 !important;
-    margin-left: 20px;
-    margin-right: 20px;
+    max-height: 150px;
+    padding: 0 40px;
 }
 
 #sliderDiv {
     display: flex;
-    flex: 0 0 70px;
-    justify-content: space-around;
-    align-items: flex-end;
-    padding: 0 40 20 0;
-    bottom: 15;
-    left: 0;
-    right: 0;
+    min-height: 100px;
+    padding-top: 20px;
+}
+
+#playButton {
+    margin: 5px 10px;
+    padding: 0 40px 0 20px;
+}
+
+#yearSlider {
+    padding-top: 10px;
 }
 
 #mobileOnly {
     display: none;
 }
 
-@media (min-width: 600px) {
-    #mobileOnlyTitle {
-        display: none;
-    }
-}
-
 @media (max-width: 600px) {
     #bottomDiv {
-        /* max-height: 30%; */
-        position: fixed;
-        z-index: -1;
-        padding: 10 0 200 0;
-    }
-    #playButton {
-        margin: 0 !important;
-        padding: 30 0;
-        flex: 0 0 auto;
-    }
-    #title.slider-title {
-        margin: 5 0 0 0;
-        padding: 0 0 0 5;
-        font-size: 12px;
+        position: relative;
+        max-height: 100%;
     }
     #sliderDiv {
-        display: inline-block;
+        flex-direction: column;
+    }
+    #playButton {
+        margin: 0;
         padding: 0;
-        bottom: 0;
-        max-height: 400px;
-        flex: 0 0 auto
     }
     #mobileOnly {
         display: block;
-        padding: 0 0 10 10;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-bottom: 20px;
+        text-align: center;
         z-index: -1;
     }
-}
-
-#yearSlider {
-    flex: 0 1 90%;
-}
-
-#playButton {
-    flex: 0 0 100px;
-    margin: 30px 0;
 }
 
 .toggle-button {
@@ -425,25 +390,8 @@ input:checked+.symbologyToggle:before {
 }
 
 
-/******** Misc ********/
+/******** bottomDiv********/
 
-@media (max-width: 600px) {
-    .esri-ui-bottom-right {
-        display: none;
-    }
-    .esri-ui-bottom-left {
-        z-index: 0;
-    }
-}
-
-.esri-view-width-xsmall .esri-popup--is-docked-top-center,
-.esri-view-width-xsmall .esri-popup--is-docked-bottom-center {
+.esri-scale-bar {
     z-index: 0;
-}
-
-.esri-ui-corner .esri-expand .esri-widget--panel,
-.esri-ui-corner .esri-expand .esri-widget--panel-height-only,
-.esri-ui-corner .esri-component>.esri-widget--panel,
-.esri-ui-corner .esri-component.esri-widget--panel {
-    width: 290px;
 }
