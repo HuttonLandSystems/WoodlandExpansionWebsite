@@ -406,6 +406,11 @@ require([
     document.getElementById('yearDisplay').innerHTML = '5 years from present';
 
     function updateDimDef(value) {
+        //close popupTemplate if open
+        if (view.popup.visible) {
+            view.popup.close()
+        };
+
         const mosaicRuleClone = layer.mosaicRule.clone(); // makes clone of layer's mosaicRule
         const fmaVariable = mosaicRuleClone.multidimensionalDefinition[0];
         const yearVariable = mosaicRuleClone.multidimensionalDefinition[1];
@@ -457,6 +462,11 @@ require([
     });
 
     function updateYearDef(value) {
+        //close popupTemplate if open
+        if (view.popup.visible) {
+            view.popup.close()
+        };
+
         const mosaicRuleClone = layer.mosaicRule.clone(); // makes clone of layer's mosaicRule
         const fmaVariable = mosaicRuleClone.multidimensionalDefinition[0];
         const yearVariable = mosaicRuleClone.multidimensionalDefinition[1];
@@ -474,6 +484,11 @@ require([
             .addEventListener('change', updatePeat);
 
         function updatePeat(event) {
+            //close popupTemplate if open
+            if (view.popup.visible) {
+                view.popup.close()
+            };
+
             // Turn peat variable on and off
             const mosaicRuleClone = layer.mosaicRule.clone(); // makes clone of layer's mosaicRule
             const fmaVariable = mosaicRuleClone.multidimensionalDefinition[0];
@@ -512,15 +527,15 @@ require([
 
     // set vars for play button 
     const playButton = document.getElementById('playButton');
-    let animation = null;
+    // let animation = null;
 
-    // When user drags the slider:
-    //  - stops the animation
-    //  - set the visualized year to the slider.
-    function inputHandler(event) {
-        stopAnimation();
-        updateYearDef(event.value);
-    };
+    // // When user drags the slider:
+    // //  - stops the animation
+    // //  - set the visualized year to the slider.
+    // function inputHandler(event) {
+    //     stopAnimation();
+    //     updateYearDef(event.value);
+    // };
 
     // Toggle animation on/off when user
     // clicks on the play button
