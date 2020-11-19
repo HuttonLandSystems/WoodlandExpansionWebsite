@@ -58,11 +58,11 @@ require([
         container: 'mapDiv',
         map: map,
         center: new Point({ x: 260000, y: 785000, spatialReference: 27700 }), // reprojected to allow OS basemap
-        zoom: 8,
-        constraints: { // zoom constraints
-            maxScale: 400000,
-            minScale: 7000000
-        }
+        zoom: 8 //,
+            // constraints: { // zoom constraints
+            //     maxScale: 400000,
+            //     minScale: 7000000
+            // }
     });
 
     // Raster function to reclassify pixels
@@ -273,13 +273,13 @@ require([
     map.add(conservancyLabelLayer, 3);
 
     // add alert when zoom constraint is reached -- but only once!
-    let executed = false;
-    view.on('mouse-wheel', function(event) {
-        if (!executed && view.zoom == 10) {
-            alert('Nationwide Data: Scale is constrained to 1:500,000');
-            executed = true;
-        }
-    });
+    // let executed = false;
+    // view.on('mouse-wheel', function(event) {
+    //     if (!executed && view.zoom == 10) {
+    //         alert('Nationwide Data: Scale is constrained to 1:500,000');
+    //         executed = true;
+    //     }
+    // });
 
     // changes label placement on zoom 
     watchUtils.watch(view, 'zoom', function(zoom) {
@@ -701,8 +701,9 @@ require([
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
             bottomDivExpand.destroy();
-            modal.style.display = 'flex'; // auto opens modal 'About' box
+            modal.style.display = 'none'; // auto opens modal 'About' box
             view.ui.add(legend, 'top-right');
+            view.ui.add(document.getElementById('wholeLeftDiv'), 'top-left');
         };
     };
 

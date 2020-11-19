@@ -25,22 +25,20 @@ body {
 /******** Floating div with leftDiv [peatCheckbox, rangeSlider] and leftDiv2 [legend] and leftDiv3 [About Modal]********/
 
 #wholeLeftDiv {
-    position: absolute;
     display: flex;
-    flex: 1 0 auto;
     flex-direction: column;
-    top: 15;
-    left: 15;
+    padding: 15px;
     z-index: 2;
     max-height: 80%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    background-color: white;
 }
 
 #leftDiv3 {
     position: relative;
-    display: flex;
+    /* display: flex;
     flex: 0 0 auto;
-    flex-direction: column;
+    flex-direction: column; */
     width: 290px;
     padding: 10 20 0 20;
     background-color: white;
@@ -71,18 +69,24 @@ body {
 }
 
 #leftDiv3 #title {
-    line-height: 1.1em;
     margin: 0;
-    font-size: 1.2em;
+    font-size: 1.3em;
     text-align: center;
 }
 
-#leftDiv2 p {
-    margin: 5 0;
-}
 
-#leftDiv p {
+/* #leftDiv2 p {
+    margin: 5 0;
+} */
+
+
+/* #leftDiv p {
     margin: 10 0;
+} */
+
+#peatCheckbox p {
+    margin: 5px 0px;
+    padding-top: 15px;
 }
 
 #leftDiv3 #modal-btn {
@@ -320,9 +324,8 @@ input:checked+.symbologyToggle:before {
     position: absolute;
     bottom: 0;
     left: 0;
-    /* right: 0; */
     max-height: 150px;
-    padding: 0 40px;
+    padding-left: 40px;
     width: 95%;
 }
 
