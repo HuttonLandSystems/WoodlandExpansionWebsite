@@ -648,19 +648,25 @@ require([
 
     //add tooltip to FMAs 
     let FMATooltip = () => {
+
+        const FMATooltipArray = [`Scots pine [YC4_MT] {2.5} <CCF> - no harvest`,
+            `Broadleaf Sycamore, Ash and Birch [YC4_NT] {2.5} <CCF> - no harvest`,
+            `Multi-Purpose Productive Broadleaf Sycamore, Ash and Birch [YC6_MT] {2.5} 80`,
+            `Multi-Purpose Alternative Conif [YC8 _MT] {1.7} 50`,
+            `Multi-Purpose Sitka Spruce SS [YC12_MT] {2.0} 50`,
+            `Production Douglas Fir DF [YC18_MT] {1.7} 50`,
+            `Production Sitka Spruce SS [YC16_MT] {2.0} 50`,
+            `Production Alternative Conif [YC10_MT] {1.7} 50`,
+            `Short Rotation ASPEN [YC10_NT] {2.5} 25`,
+            `Short Rotation Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25`,
+            `SRF Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25`
+        ];
         const rangeSliderDom = document.getElementById('rangeSlider').getElementsByClassName('esri-slider__tick-label')
-        rangeSliderDom[0].setAttribute('title', 'Scots pine [YC4_MT] {2.5} <CCF> - no harvest')
-        rangeSliderDom[1].setAttribute('title', 'Broadleaf Sycamore, Ash and Birch [YC4_NT] {2.5} <CCF> - no harvest')
-        rangeSliderDom[2].setAttribute('title', 'Multi-Purpose Productive Broadleaf Sycamore, Ash and Birch [YC6_MT] {2.5} 80')
-        rangeSliderDom[3].setAttribute('title', 'Multi-Purpose Alternative Conif [YC8 _MT] {1.7} 50')
-        rangeSliderDom[4].setAttribute('title', 'Multi-Purpose Sitka Spruce SS [YC12_MT] {2.0} 50')
-        rangeSliderDom[5].setAttribute('title', 'Production Douglas Fir DF [YC18_MT] {1.7} 50')
-        rangeSliderDom[6].setAttribute('title', 'Production Sitka Spruce SS [YC16_MT] {2.0} 50')
-        rangeSliderDom[7].setAttribute('title', 'Production Alternative Conif [YC10_MT] {1.7} 50')
-        rangeSliderDom[8].setAttribute('title', 'Short Rotation ASPEN [YC10_NT] {2.5} 25')
-        rangeSliderDom[9].setAttribute('title', 'Short Rotation Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25')
-        rangeSliderDom[10].setAttribute('title', 'SRF Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25')
-    };
+
+        for (let i = 0; i < rangeSliderDom.length; i++) {
+            rangeSliderDom[i].setAttribute('title', FMATooltipArray[i])
+        };
+    }
     setTimeout(FMATooltip, 1000);
 
     // Mobile
