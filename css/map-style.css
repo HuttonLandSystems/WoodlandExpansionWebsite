@@ -408,3 +408,13 @@ input:checked+.symbologyToggle:before {
 .esri-view-height-small .esri-ui-corner .esri-component .esri-expand__content {
     max-height: 100%;
 }
+
+.esri-view:focus,
+.esri-view-root:focus,
+.esri-view .esri-view-surface:focus {
+    outline: -webkit-focus-ring-color none !important;
+}
+
+.esri-view .esri-view-surface--inset-outline:focus::after {
+    outline: 0 !important;
+}

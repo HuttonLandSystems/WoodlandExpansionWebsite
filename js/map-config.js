@@ -58,11 +58,11 @@ require([
         container: 'mapDiv',
         map: map,
         center: new Point({ x: 260000, y: 785000, spatialReference: 27700 }), // reprojected to allow OS basemap
-        zoom: 8 //,
-            // constraints: { // zoom constraints
-            //     maxScale: 400000,
-            //     minScale: 7000000
-            // }
+        zoom: 8,
+        constraints: { // zoom constraints
+            maxScale: 400000,
+            minScale: 7000000
+        }
     });
 
     // Raster function to reclassify pixels
@@ -272,14 +272,14 @@ require([
     });
     map.add(conservancyLabelLayer, 3);
 
-    // add alert when zoom constraint is reached -- but only once!
-    // let executed = false;
-    // view.on('mouse-wheel', function(event) {
-    //     if (!executed && view.zoom == 10) {
-    //         alert('Nationwide Data: Scale is constrained to 1:500,000');
-    //         executed = true;
-    //     }
-    // });
+    //add alert when zoom constraint is reached--but only once!
+    let executed = false;
+    view.on('mouse-wheel', function(event) {
+        if (!executed && view.zoom == 10) {
+            alert('Nationwide Data: Scale is constrained to 1:500,000');
+            executed = true;
+        }
+    });
 
     // changes label placement on zoom 
     watchUtils.watch(view, 'zoom', function(zoom) {
@@ -639,6 +639,29 @@ require([
         ]
     });
 
+    //add tooltip to legend
+    let legendTooltip = () => {
+        let legendClass = document.getElementsByClassName('esri-legend')[0];
+        legendClass.setAttribute('title', `Click anywhere on the map to get the data's pixel value`)
+    };
+    setTimeout(legendTooltip, 1000);
+
+    //add tooltip to FMAs 
+    let FMATooltip = () => {
+        const rangeSliderDom = document.getElementById('rangeSlider').getElementsByClassName('esri-slider__tick-label')
+        rangeSliderDom[0].setAttribute('title', 'Scots pine [YC4_MT] {2.5} <CCF> - no harvest')
+        rangeSliderDom[1].setAttribute('title', 'Broadleaf Sycamore, Ash and Birch [YC4_NT] {2.5} <CCF> - no harvest')
+        rangeSliderDom[2].setAttribute('title', 'Multi-Purpose Productive Broadleaf Sycamore, Ash and Birch [YC6_MT] {2.5} 80')
+        rangeSliderDom[3].setAttribute('title', 'Multi-Purpose Alternative Conif [YC8 _MT] {1.7} 50')
+        rangeSliderDom[4].setAttribute('title', 'Multi-Purpose Sitka Spruce SS [YC12_MT] {2.0} 50')
+        rangeSliderDom[5].setAttribute('title', 'Production Douglas Fir DF [YC18_MT] {1.7} 50')
+        rangeSliderDom[6].setAttribute('title', 'Production Sitka Spruce SS [YC16_MT] {2.0} 50')
+        rangeSliderDom[7].setAttribute('title', 'Production Alternative Conif [YC10_MT] {1.7} 50')
+        rangeSliderDom[8].setAttribute('title', 'Short Rotation ASPEN [YC10_NT] {2.5} 25')
+        rangeSliderDom[9].setAttribute('title', 'Short Rotation Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25')
+        rangeSliderDom[10].setAttribute('title', 'SRF Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25')
+    };
+    setTimeout(FMATooltip, 1000);
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
