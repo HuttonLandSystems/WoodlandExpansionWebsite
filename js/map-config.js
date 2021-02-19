@@ -657,9 +657,9 @@ require([
             `Production Douglas Fir DF [YC18_MT] {1.7} 50`,
             `Production Sitka Spruce SS [YC16_MT] {2.0} 50`,
             `Production Alternative Conif [YC10_MT] {1.7} 50`,
-            `Short Rotation ASPEN [YC10_NT] {2.5} 25`,
+            `Short Rotation Aspen [YC10_NT] {2.5} 25`,
             `Short Rotation Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25`,
-            `SRF Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25`
+            `Short Rotation Non-Native as Sycamore, Ash and Birch [YC12_NT] {2.5} 25`
         ];
         const rangeSliderDom = document.getElementById('rangeSlider').getElementsByClassName('esri-slider__tick-label')
 
