@@ -730,7 +730,7 @@ require([
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
             bottomDivExpand.destroy();
-            modal.style.display = 'none'; // auto opens modal 'About' box
+            modal.style.display = 'flex'; // flex auto opens modal 'About' box / none keeps closed 
             view.ui.add(legend, 'top-right');
             view.ui.add(document.getElementById('wholeLeftDiv'), 'top-left');
         };
