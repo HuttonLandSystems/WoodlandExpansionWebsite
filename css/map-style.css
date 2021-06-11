@@ -161,6 +161,10 @@ body {
     text-align: justify;
 }
 
+#modal-text p {
+    margin-top: 0;
+}
+
 @media (max-width: 600px) {
     #modal-text {
         text-align: left;
@@ -417,4 +421,8 @@ input:checked+.symbologyToggle:before {
 
 .esri-view .esri-view-surface--inset-outline:focus::after {
     outline: 0 !important;
+}
+
+.esri-popup__footer  {
+    display:none;
 }

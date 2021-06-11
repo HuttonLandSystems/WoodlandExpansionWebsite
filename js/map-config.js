@@ -204,7 +204,7 @@ require([
             buttonEnabled: false
         }
     };
-    view.popup.viewModel.actions.getItemAt(0).visible = false; // remove zoom-to action in popup template
+    //view.popup.viewModel.actions.getItemAt(0).visible = false; // remove zoom-to action in popup template
 
     // symbol for forestLayer 
     const forestRenderer = {
@@ -347,7 +347,7 @@ require([
                 if (value === 11) {
                     return 'Short Rotation Eucalypt';
                 }
-            } // look into thumbCreatedFunction for tooltip here
+            } 
     });
 
     // Load responsive (for rest see line ~470)
@@ -529,14 +529,6 @@ require([
     const playButton = document.getElementById('playButton');
     // let animation = null;
 
-    // // When user drags the slider:
-    // //  - stops the animation
-    // //  - set the visualized year to the slider.
-    // function inputHandler(event) {
-    //     stopAnimation();
-    //     updateYearDef(event.value);
-    // };
-
     // Toggle animation on/off when user
     // clicks on the play button
     playButton.addEventListener('click', function() {
@@ -599,11 +591,6 @@ require([
     abstractCloseBtn.onclick = function() {
         abstractModal.style.display = 'none';
     };
-    // window.onclick = function(e) {
-    //     if (e.target == abstractModal) {
-    //         abstractModal.style.display = 'none';
-    //     }
-    // };
 
     // moves the zoom widget to other corner
     view.ui.move('zoom', 'bottom-right');
@@ -667,7 +654,7 @@ require([
             rangeSliderDom[i].setAttribute('title', FMATooltipArray[i])
         };
     }
-    setTimeout(FMATooltip, 1000);
+    setTimeout(FMATooltip, 1000); // assigns tooltips once loaded
 
     // Mobile
     const leftDiv = document.getElementById('leftDiv');
@@ -730,7 +717,7 @@ require([
             leftDiv2Expand.destroy();
             leftDiv3Expand.destroy();
             bottomDivExpand.destroy();
-            modal.style.display = 'flex'; // flex auto opens modal 'About' box / none keeps closed 
+            modal.style.display = 'none'; // 'flex' opens modal 'About' box on page load / 'none' keeps closed 
             view.ui.add(legend, 'top-right');
             view.ui.add(document.getElementById('wholeLeftDiv'), 'top-left');
         };
