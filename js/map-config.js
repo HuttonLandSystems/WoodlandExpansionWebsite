@@ -506,24 +506,24 @@ require([
     });
 
     // when the user change the symbologyInput checkbox status, then change symbology 
-    view.when(function() {
-        document
-            .getElementById('symbologyInput')
-            .addEventListener('change', updateSymbology);
-    });
+    // view.when(function() {
+    //     document
+    //         .getElementById('symbologyInput')
+    //         .addEventListener('change', updateSymbology);
+    // });
 
-    function updateSymbology(event) {
-        // Turn stretch symbology on and off 
-        if (this.checked) {
-            layer.renderer = stretchRenderer;
-            layer.renderingRule = null;
-            console.log(stretchRenderer);
-        } else {
-            layer.renderer = null;
-            layer.renderingRule = reclassColorRF;
-            console.log(reclassColorRF);
-        }
-    }
+    // function updateSymbology(event) {
+    //     // Turn stretch symbology on and off 
+    //     if (this.checked) {
+    //         layer.renderer = stretchRenderer;
+    //         layer.renderingRule = null;
+    //         console.log(stretchRenderer);
+    //     } else {
+    //         layer.renderer = null;
+    //         layer.renderingRule = reclassColorRF;
+    //         console.log(reclassColorRF);
+    //     }
+    // }
 
     // set vars for play button 
     const playButton = document.getElementById('playButton');
@@ -611,6 +611,7 @@ require([
     // create and add legend to view 
     var legend = new Legend({
         view: view,
+        label: 'Mapping Net Change in Carbon from Afforestation in Scotland',
         layerInfos: [{
                 layer: layer,
                 title: 'Tonnes of carbon stored per hectare per year'
