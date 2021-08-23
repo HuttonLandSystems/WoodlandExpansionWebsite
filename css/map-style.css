@@ -429,3 +429,7 @@ input:checked+.symbologyToggle:before {
 .esri-legend__layer-table {
     margin:0;
 }
+
+.esri-view-height-xsmall .esri-expand .esri-widget--panel, .esri-view-height-xsmall .esri-expand .esri-widget--panel-height-only, .esri-view-height-xsmall .esri-ui-corner .esri-component.esri-widget--panel, .esri-view-height-xsmall .esri-ui-corner .esri-component.esri-widget--panel-height-only {
+    max-height: 500px;
+}
